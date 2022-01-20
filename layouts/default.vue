@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app :dark="setTheme">
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -113,6 +113,11 @@ export default {
       rightDrawer: false,
       title: 'Vuetify.js'
     }
+  },
+  computed: {
+    setTheme () {
+            this.$vuetify.theme.dark = false
+        },
   }
 }
 </script>
