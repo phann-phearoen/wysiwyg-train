@@ -12,12 +12,16 @@
 			  label="Field 2"
 			  v-model="field2"
 			  ></v-text-field>
+
+			  <div id="editor"></div>
 		  </v-form>
 	  </v-card>
   </v-container>
 </template>
 
 <script>
+import { Quill } from 'quill'
+
 export default {
   	name: 'IndexPage',
 	data() {
@@ -25,6 +29,14 @@ export default {
 			field1: "",
 			field2: "",
 		}
+	},
+	mounted() {
+		var quill = new Quill('#editor', {
+			modules: {
+				// Equivalent to { toolbar: { container: '#toolbar' }}
+				toolbar: '#toolbar'
+			}
+		});
 	}
 }
 </script>
