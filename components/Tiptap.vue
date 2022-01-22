@@ -1,5 +1,15 @@
 <template>
-    <editor-content :editor="editor" />
+    <div>
+        <v-card 
+        width="100%"
+        elevation="0"
+        min-height="40"
+        id="toolbar"
+        >
+            the toolbar
+        </v-card>
+        <editor-content :editor="editor" />
+    </div>
 </template>
 
 <script>
@@ -39,7 +49,8 @@ export default {
 .ProseMirror {
     min-height: 200px;
     border: 1.5px solid grey;
-    border-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     padding: 5px;
 }
 .ProseMirror p.is-editor-empty:first-child::before {
@@ -49,5 +60,15 @@ export default {
   pointer-events: none;
   font-style: italic;
   height: 0;
+}
+</style>
+
+<style scoped>
+#toolbar {
+    border: 1.5px solid grey !important;
+    border-bottom: none !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    padding: .4em !important;
 }
 </style>
