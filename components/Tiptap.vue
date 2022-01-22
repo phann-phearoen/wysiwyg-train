@@ -80,7 +80,7 @@ export default {
 
     data() {
         return {
-        editor: null,
+            editor: null,
         }
     },
 

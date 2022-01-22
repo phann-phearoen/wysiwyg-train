@@ -8,15 +8,18 @@
 					<v-text-field
 					label="Field 1"
 					v-model="field1"
+					outlined
 					></v-text-field>
 					<v-text-field
 					label="Field 2"
 					v-model="field2"
+					outlined
 					></v-text-field>
 
 					<client-only>
 						<tiptap />
 					</client-only>
+
 				</v-form>
 			</v-card-text>
 		</v-card>
