@@ -6,19 +6,15 @@
         color="#F5F5F5"
         >
             <v-btn-toggle>
-                <v-btn 
-                type="button" 
+                <v-btn
                 @click="editor.chain().focus().undo().run()"
                 :disabled="!editor"
-                plain
                 >
                     <v-icon>mdi-arrow-u-left-top</v-icon>
                 </v-btn>
-                <v-btn 
-                type="button" 
+                <v-btn
                 @click="editor.chain().focus().redo().run()"
                 :disabled="!editor"
-                plain
                 >
                     <v-icon>mdi-arrow-u-right-top</v-icon>
                 </v-btn>
@@ -26,35 +22,51 @@
 
             <v-btn-toggle
             multiple>
-                <v-btn 
-                type="button" 
+                <v-btn
                 @click="editor.chain().focus().toggleBold().run()"
-                plain
                 >
                     <v-icon>mdi-format-bold</v-icon>
                 </v-btn>
-                <v-btn 
-                type="button" 
+                <v-btn
                 @click="editor.chain().focus().toggleItalic().run()"
-                plain
                 >
                     <v-icon>mdi-format-italic</v-icon>
                 </v-btn>
-                <v-btn 
-                type="button" 
+                <v-btn
                 @click="editor.chain().focus().toggleUnderline().run()"
-                plain
                 >
                     <v-icon>mdi-format-underline</v-icon>
                 </v-btn>
-                <v-btn 
-                type="button" 
+                <v-btn
                 @click="editor.chain().focus().toggleStrike().run()"
-                plain
                 >
                     <v-icon>mdi-format-strikethrough</v-icon>
                 </v-btn>                
-            </v-btn-toggle>   
+            </v-btn-toggle>
+
+            <v-btn-toggle>
+                <v-btn
+                type="button"
+                @click="editor.chain().focus().setTextAlign('left').run()"
+                >
+                    <v-icon>mdi-format-align-left</v-icon>
+                </v-btn>
+                <v-btn
+                @click="editor.chain().focus().setTextAlign('center').run()"
+                >
+                    <v-icon>mdi-format-align-center</v-icon>
+                </v-btn>
+                <v-btn
+                @click="editor.chain().focus().setTextAlign('right').run()"
+                >
+                    <v-icon>mdi-format-align-right</v-icon>
+                </v-btn>
+                <v-btn
+                @click="editor.chain().focus().setTextAlign('justify').run()"
+                >
+                    <v-icon>mdi-format-align-justify</v-icon>
+                </v-btn>
+            </v-btn-toggle>
             
         </v-card>
 
@@ -67,6 +79,7 @@ import { Editor, EditorContent } from '@tiptap/vue-2'
 import StarterKit from '@tiptap/starter-kit'
 import Placehoder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
+import TextAlign from '@tiptap/extension-text-align'
 
 export default {
     components: {
@@ -95,7 +108,9 @@ export default {
                     placeholder: "say something, I'm giving up on you..."
                 }),
                 Underline,
-
+                TextAlign.configure({
+                    types: ['heading', 'paragraph'],
+                }),
             ],
             content: '',
         })
