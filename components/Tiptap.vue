@@ -44,33 +44,6 @@
             </v-btn-toggle>
 
             <v-btn-toggle>
-                <v-btn @click="editor.chain().focus().setTextAlign('left').run()">
-                    <v-icon>mdi-format-align-left</v-icon>
-                </v-btn>
-                <v-btn @click="editor.chain().focus().setTextAlign('center').run()">
-                    <v-icon>mdi-format-align-center</v-icon>
-                </v-btn>
-                <v-btn @click="editor.chain().focus().setTextAlign('right').run()">
-                    <v-icon>mdi-format-align-right</v-icon>
-                </v-btn>
-                <v-btn @click="editor.chain().focus().setTextAlign('justify').run()">
-                    <v-icon>mdi-format-align-justify</v-icon>
-                </v-btn>
-            </v-btn-toggle>
-
-            <v-btn-toggle>
-                 <v-btn @click="editor.chain().focus().toggleHeading({ level: 1 }).run()">
-                    <v-icon>mdi-format-header-1</v-icon>
-                </v-btn>
-                <v-btn @click="editor.chain().focus().toggleHeading({ level: 2 }).run()">
-                    <v-icon>mdi-format-header-2</v-icon>
-                </v-btn>
-                <v-btn @click="editor.chain().focus().toggleHeading({ level: 3 }).run()">
-                    <v-icon>mdi-format-header-3</v-icon>
-                </v-btn>
-            </v-btn-toggle>
-
-            <v-btn-toggle>
                 <v-dialog
                     v-model="dialog"
                     width="500"
@@ -102,11 +75,11 @@
                         <v-card-text>
                             <v-color-picker
                             width="490"
-                            hide-sliders
                             dot-size="25"
                             show-swatches
                             swatches-max-height="100"
                             mode="hexa"
+                            hide-inputs
                             v-model="color"
                             ></v-color-picker>
                             <v-btn
@@ -119,12 +92,45 @@
                     </v-card>                       
                 </v-dialog>
             </v-btn-toggle>
+
+            <v-btn-toggle>
+                <v-btn @click="editor.chain().focus().setTextAlign('left').run()">
+                    <v-icon>mdi-format-align-left</v-icon>
+                </v-btn>
+                <v-btn @click="editor.chain().focus().setTextAlign('center').run()">
+                    <v-icon>mdi-format-align-center</v-icon>
+                </v-btn>
+                <v-btn @click="editor.chain().focus().setTextAlign('right').run()">
+                    <v-icon>mdi-format-align-right</v-icon>
+                </v-btn>
+                <v-btn @click="editor.chain().focus().setTextAlign('justify').run()">
+                    <v-icon>mdi-format-align-justify</v-icon>
+                </v-btn>
+            </v-btn-toggle>
+
+            <v-btn-toggle>
+                <v-btn @click="editor.chain().focus().toggleBulletList().run()">
+                    <v-icon>mdi-format-list-bulleted</v-icon>
+                </v-btn>
+                <v-btn @click="editor.chain().focus().toggleOrderedList().run()">
+                    <v-icon>mdi-format-list-numbered</v-icon>
+                </v-btn>
+            </v-btn-toggle>
+            
+            <v-btn-toggle>
+                 <v-btn @click="editor.chain().focus().toggleHeading({ level: 1 }).run()">
+                    <v-icon>mdi-format-header-1</v-icon>
+                </v-btn>
+                <v-btn @click="editor.chain().focus().toggleHeading({ level: 2 }).run()">
+                    <v-icon>mdi-format-header-2</v-icon>
+                </v-btn>
+                <v-btn @click="editor.chain().focus().toggleHeading({ level: 3 }).run()">
+                    <v-icon>mdi-format-header-3</v-icon>
+                </v-btn>
+            </v-btn-toggle>
+
         </v-card>
-
-
         <editor-content :editor="editor" />
-
-        <div>{{ color }}</div>
     </div>
 </template>
 
