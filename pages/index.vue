@@ -4,7 +4,7 @@
 			<v-card-title>Try quill by cdn</v-card-title>
 			<v-divider></v-divider>
 			<v-card-text>
-				<v-form>
+				<v-form @submit.prevent="submit">
 					<v-text-field
 					label="Field 1"
 					v-model="field1"
@@ -35,5 +35,10 @@ export default {
 			field2: "",
 		}
 	},
+	methods: {
+		submit() {
+			//kvjzhs
+		}
+	}
 }
 </script>
