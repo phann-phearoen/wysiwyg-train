@@ -102,16 +102,16 @@
                         <v-card-text>
                             <v-color-picker
                             width="490"
+                            hide-sliders
                             dot-size="25"
                             show-swatches
                             swatches-max-height="100"
                             mode="hexa"
                             v-model="color"
-                            @input="setColor(color)"
                             ></v-color-picker>
                             <v-btn
                             class="mt-4 ml-auto"
-                            @click="dialog = false"
+                            @click="closeDialog(color)"
                             plain
                             color="blue"
                             >Done</v-btn>
@@ -134,6 +134,8 @@ import StarterKit from '@tiptap/starter-kit'
 import Placehoder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
 import TextAlign from '@tiptap/extension-text-align'
+import TextStyle from '@tiptap/extension-text-style'
+import Color from '@tiptap/extension-color'
 
 export default {
     components: {
@@ -148,9 +150,12 @@ export default {
         }
     },
     methods: {
-        setColor(color) {
-            console.log(color)
-        }
+        closeDialog(color) {
+            this.dialog = false
+            if(color) {
+                this.editor.chain().focus().setColor(color).run()
+            }
+        },
     },
 
     mounted() {
@@ -169,6 +174,8 @@ export default {
                 TextAlign.configure({
                     types: ['heading', 'paragraph'],
                 }),
+                TextStyle,
+                Color,
             ],
             content: '',
         })
