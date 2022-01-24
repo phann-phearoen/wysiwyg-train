@@ -107,6 +107,7 @@
                             swatches-max-height="100"
                             mode="hexa"
                             v-model="color"
+                            @input="setColor(color)"
                             ></v-color-picker>
                             <v-btn
                             class="mt-4 ml-auto"
@@ -147,7 +148,9 @@ export default {
         }
     },
     methods: {
-        
+        setColor(color) {
+            console.log(color)
+        }
     },
 
     mounted() {
