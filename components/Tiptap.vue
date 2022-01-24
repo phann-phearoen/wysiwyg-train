@@ -3,34 +3,58 @@
         <v-card
         outlined
         id="toolbar"
+        color="#F5F5F5"
         >
-            <v-btn 
-            type="button" 
-            @click="editor.chain().focus().toggleBold().run()"
-            plain
-            fab
-            small
-            >
-                <v-icon>mdi-format-bold</v-icon>
-            </v-btn>
-            <v-btn 
-            type="button" 
-            @click="editor.chain().focus().toggleItalic().run()"
-            plain
-            fab
-            small
-            >
-                <v-icon>mdi-format-italic</v-icon>
-            </v-btn>
-            <v-btn 
-            type="button" 
-            @click="underline"
-            plain
-            fab
-            small
-            >
-                <v-icon>mdi-format-underline</v-icon>
-            </v-btn>
+            <v-btn-toggle>
+                <v-btn 
+                type="button" 
+                @click="editor.chain().focus().undo().run()"
+                :disabled="!editor"
+                plain
+                >
+                    <v-icon>mdi-arrow-u-left-top</v-icon>
+                </v-btn>
+                <v-btn 
+                type="button" 
+                @click="editor.chain().focus().redo().run()"
+                :disabled="!editor"
+                plain
+                >
+                    <v-icon>mdi-arrow-u-right-top</v-icon>
+                </v-btn>
+            </v-btn-toggle>
+
+            <v-btn-toggle
+            multiple>
+                <v-btn 
+                type="button" 
+                @click="editor.chain().focus().toggleBold().run()"
+                plain
+                >
+                    <v-icon>mdi-format-bold</v-icon>
+                </v-btn>
+                <v-btn 
+                type="button" 
+                @click="editor.chain().focus().toggleItalic().run()"
+                plain
+                >
+                    <v-icon>mdi-format-italic</v-icon>
+                </v-btn>
+                <v-btn 
+                type="button" 
+                @click="editor.chain().focus().toggleUnderline().run()"
+                plain
+                >
+                    <v-icon>mdi-format-underline</v-icon>
+                </v-btn>
+                <v-btn 
+                type="button" 
+                @click="editor.chain().focus().toggleStrike().run()"
+                plain
+                >
+                    <v-icon>mdi-format-strikethrough</v-icon>
+                </v-btn>                
+            </v-btn-toggle>   
             
         </v-card>
 
@@ -42,6 +66,7 @@
 import { Editor, EditorContent } from '@tiptap/vue-2'
 import StarterKit from '@tiptap/starter-kit'
 import Placehoder from '@tiptap/extension-placeholder'
+import Underline from '@tiptap/extension-underline'
 
 export default {
     components: {
@@ -54,9 +79,7 @@ export default {
         }
     },
     methods: {
-        underline() {
-            this.editor.chain.focus.toggleUnderline.run()
-        }
+        
     },
 
     mounted() {
@@ -70,7 +93,9 @@ export default {
                 }),
                 Placehoder.configure({
                     placeholder: "say something, I'm giving up on you..."
-                })
+                }),
+                Underline,
+
             ],
             content: '',
         })
