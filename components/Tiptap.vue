@@ -3,7 +3,6 @@
         <v-card
         outlined
         id="toolbar"
-        color="#F5F5F5"
         >
             <v-btn-toggle>
                 <v-btn
@@ -45,32 +44,86 @@
             </v-btn-toggle>
 
             <v-btn-toggle>
-                <v-btn
-                type="button"
-                @click="editor.chain().focus().setTextAlign('left').run()"
-                >
+                <v-btn @click="editor.chain().focus().setTextAlign('left').run()">
                     <v-icon>mdi-format-align-left</v-icon>
                 </v-btn>
-                <v-btn
-                @click="editor.chain().focus().setTextAlign('center').run()"
-                >
+                <v-btn @click="editor.chain().focus().setTextAlign('center').run()">
                     <v-icon>mdi-format-align-center</v-icon>
                 </v-btn>
-                <v-btn
-                @click="editor.chain().focus().setTextAlign('right').run()"
-                >
+                <v-btn @click="editor.chain().focus().setTextAlign('right').run()">
                     <v-icon>mdi-format-align-right</v-icon>
                 </v-btn>
-                <v-btn
-                @click="editor.chain().focus().setTextAlign('justify').run()"
-                >
+                <v-btn @click="editor.chain().focus().setTextAlign('justify').run()">
                     <v-icon>mdi-format-align-justify</v-icon>
                 </v-btn>
             </v-btn-toggle>
-            
+
+            <v-btn-toggle>
+                 <v-btn @click="editor.chain().focus().toggleHeading({ level: 1 }).run()">
+                    <v-icon>mdi-format-header-1</v-icon>
+                </v-btn>
+                <v-btn @click="editor.chain().focus().toggleHeading({ level: 2 }).run()">
+                    <v-icon>mdi-format-header-2</v-icon>
+                </v-btn>
+                <v-btn @click="editor.chain().focus().toggleHeading({ level: 3 }).run()">
+                    <v-icon>mdi-format-header-3</v-icon>
+                </v-btn>
+            </v-btn-toggle>
+
+            <v-btn-toggle>
+                <v-dialog
+                    v-model="dialog"
+                    width="500"
+                    >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        v-bind="attrs"
+                        v-on="on">
+                            <v-row
+                            align="center"
+                            class="flex-column"
+                            justify="center"
+                            >
+                                <v-icon class="cols 12">mdi-format-color-text</v-icon>
+                                <v-sheet
+                                tile
+                                style="margin-top: -4px;"
+                                height="4"
+                                width="26"
+                                :color="color"
+                                ></v-sheet>
+                            </v-row>
+                        </v-btn>
+                    </template>
+
+                    <v-card width="500">
+                        <v-card-title>Color Picker</v-card-title>
+                        <v-divider></v-divider>
+                        <v-card-text>
+                            <v-color-picker
+                            width="490"
+                            dot-size="25"
+                            show-swatches
+                            swatches-max-height="100"
+                            mode="hexa"
+                            v-model="color"
+                            ></v-color-picker>
+                            <v-btn
+                            class="mt-4 ml-auto"
+                            @click="dialog = false"
+                            plain
+                            color="blue"
+                            >Done</v-btn>
+                        </v-card-text>
+                    </v-card>                       
+                </v-dialog>
+            </v-btn-toggle>
         </v-card>
 
+
         <editor-content :editor="editor" />
+
+        <div>{{ color }}</div>
     </div>
 </template>
 
@@ -89,6 +142,8 @@ export default {
     data() {
         return {
             editor: null,
+            color: "",
+            dialog: null,
         }
     },
     methods: {
@@ -101,7 +156,7 @@ export default {
                 StarterKit.configure({
                     history: true,
                     heading: {
-                        levels: [1, 2, 3, 4, 5, 6],
+                        levels: [1, 2, 3],
                     },
                 }),
                 Placehoder.configure({
