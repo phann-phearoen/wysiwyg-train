@@ -4,7 +4,7 @@
         outlined
         id="toolbar"
         >
-            <v-btn-toggle>
+            <v-btn-toggle id="history">
                 <v-btn
                 @click="editor.chain().focus().undo().run()"
                 :disabled="!editor"
@@ -19,7 +19,7 @@
                 </v-btn>
             </v-btn-toggle>
 
-            <v-btn-toggle
+            <v-btn-toggle id="text-style"
             multiple>
                 <v-btn
                 @click="editor.chain().focus().toggleBold().run()"
@@ -43,7 +43,7 @@
                 </v-btn>                
             </v-btn-toggle>
 
-            <v-btn-toggle>
+            <v-btn-toggle id="color">
                 <v-dialog
                     v-model="dialog"
                     width="500"
@@ -93,7 +93,7 @@
                 </v-dialog>
             </v-btn-toggle>
 
-            <v-btn-toggle>
+            <v-btn-toggle id="align">
                 <v-btn @click="editor.chain().focus().setTextAlign('left').run()">
                     <v-icon>mdi-format-align-left</v-icon>
                 </v-btn>
@@ -108,7 +108,7 @@
                 </v-btn>
             </v-btn-toggle>
 
-            <v-btn-toggle>
+            <v-btn-toggle id="list">
                 <v-btn @click="editor.chain().focus().toggleBulletList().run()">
                     <v-icon>mdi-format-list-bulleted</v-icon>
                 </v-btn>
@@ -117,7 +117,7 @@
                 </v-btn>
             </v-btn-toggle>
             
-            <v-btn-toggle>
+            <v-btn-toggle id="heading">
                  <v-btn @click="editor.chain().focus().toggleHeading({ level: 1 }).run()">
                     <v-icon>mdi-format-header-1</v-icon>
                 </v-btn>
@@ -127,6 +127,16 @@
                 <v-btn @click="editor.chain().focus().toggleHeading({ level: 3 }).run()">
                     <v-icon>mdi-format-header-3</v-icon>
                 </v-btn>
+            </v-btn-toggle>
+            
+            <v-btn-toggle>
+                <v-btn @click="editor.chain().focus().toggleBlockquote().run()">
+                    <v-icon>mdi-format-quote-open</v-icon>
+                </v-btn>
+                <v-btn @click="editor.chain().focus().toggleCodeBlock().run()">
+                    <v-icon>mdi-code-braces-box</v-icon>
+                </v-btn>
+
             </v-btn-toggle>
 
         </v-card>
@@ -172,6 +182,8 @@ export default {
                     heading: {
                         levels: [1, 2, 3],
                     },
+                    blockquote: {},
+                    codeBlock: {}
                 }),
                 Placehoder.configure({
                     placeholder: "say something, I'm giving up on you..."
@@ -209,6 +221,13 @@ export default {
   pointer-events: none;
   font-style: italic;
   height: 0;
+}
+blockquote {
+    margin: 0 1rem;
+    padding: .5rem 0 .01rem 1rem;
+    border-left: 3px solid grey;
+    background-color: #fcfeff;
+    font-size: 1.2em;
 }
 </style>
 
