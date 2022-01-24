@@ -139,7 +139,9 @@
                 <v-btn @click="editor.chain().focus().setHorizontalRule().run()">
                     <v-icon>mdi-minus</v-icon>
                 </v-btn>
-
+                <v-btn @click="setLink">
+                    <v-icon>mdi-link</v-icon>
+                </v-btn>
             </v-btn-toggle>
 
         </v-card>
@@ -155,6 +157,7 @@ import Underline from '@tiptap/extension-underline'
 import TextAlign from '@tiptap/extension-text-align'
 import TextStyle from '@tiptap/extension-text-style'
 import Color from '@tiptap/extension-color'
+import Link from '@tiptap/extension-link'
 
 export default {
     components: {
@@ -174,6 +177,35 @@ export default {
             if(color) {
                 this.editor.chain().focus().setColor(color).run()
             }
+        },
+        setLink() {
+            const previousUrl = this.editor.getAttributes('link').href
+            const url = window.prompt('URL', previousUrl)
+
+            // cancelled
+            if (url === null) {
+                return
+            }
+
+            // empty
+            if (url === '') {
+                this.editor
+                .chain()
+                .focus()
+                .extendMarkRange('link')
+                .unsetLink()
+                .run()
+
+                return
+            }
+
+            // update link
+            this.editor
+                .chain()
+                .focus()
+                .extendMarkRange('link')
+                .setLink({ href: url })
+                .run()
         },
     },
 
@@ -198,6 +230,7 @@ export default {
                 }),
                 TextStyle,
                 Color,
+                Link,
             ],
             content: '',
         })
