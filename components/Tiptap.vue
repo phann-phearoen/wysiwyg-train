@@ -136,6 +136,9 @@
                 <v-btn @click="editor.chain().focus().toggleCodeBlock().run()">
                     <v-icon>mdi-code-braces-box</v-icon>
                 </v-btn>
+                <v-btn @click="editor.chain().focus().setHorizontalRule().run()">
+                    <v-icon>mdi-minus</v-icon>
+                </v-btn>
 
             </v-btn-toggle>
 
@@ -183,7 +186,8 @@ export default {
                         levels: [1, 2, 3],
                     },
                     blockquote: {},
-                    codeBlock: {}
+                    codeBlock: {},
+                    horizontalRule: {},
                 }),
                 Placehoder.configure({
                     placeholder: "say something, I'm giving up on you..."
