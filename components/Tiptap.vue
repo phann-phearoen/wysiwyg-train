@@ -84,6 +84,11 @@
                             ></v-color-picker>
                             <v-btn
                             class="mt-4 ml-auto"
+                            plain
+                            @click="dialog = false; editor.chain().focus().unsetColor().run(); "
+                            >Default</v-btn>
+                            <v-btn
+                            class="mt-4 ml-auto"
                             @click="closeDialog(color)"
                             plain
                             color="blue"
