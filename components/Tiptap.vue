@@ -93,8 +93,13 @@
                 </v-dialog>
             </v-btn-toggle>
 
-            <v-btn-toggle id="align">
-                <v-btn @click="editor.chain().focus().setTextAlign('left').run()">
+            <v-btn-toggle id="align"
+            v-model="align_toggler"
+            >
+                <v-btn 
+                @click="editor.chain().focus().setTextAlign('left').run()"
+                class="v-item--active"
+                >
                     <v-icon>mdi-format-align-left</v-icon>
                 </v-btn>
                 <v-btn @click="editor.chain().focus().setTextAlign('center').run()">
@@ -117,7 +122,12 @@
                 </v-btn>
             </v-btn-toggle>
             
-            <v-btn-toggle id="heading">
+            <v-btn-toggle id="heading"
+            v-model="text_type_toggler"
+            >
+                <v-btn @click="editor.commands.setParagraph()">
+                    <v-icon>mdi-format-paragraph</v-icon>
+                </v-btn>
                  <v-btn @click="editor.chain().focus().toggleHeading({ level: 1 }).run()">
                     <v-icon>mdi-format-header-1</v-icon>
                 </v-btn>
@@ -127,14 +137,14 @@
                 <v-btn @click="editor.chain().focus().toggleHeading({ level: 3 }).run()">
                     <v-icon>mdi-format-header-3</v-icon>
                 </v-btn>
+                 <v-btn @click="editor.chain().focus().toggleHeading({ level: 4 }).run()">
+                    <v-icon>mdi-format-header-4</v-icon>
+                </v-btn>
             </v-btn-toggle>
             
             <v-btn-toggle>
                 <v-btn @click="editor.chain().focus().toggleBlockquote().run()">
                     <v-icon>mdi-format-quote-open</v-icon>
-                </v-btn>
-                <v-btn @click="editor.chain().focus().toggleCodeBlock().run()">
-                    <v-icon>mdi-code-braces-box</v-icon>
                 </v-btn>
                 <v-btn @click="editor.chain().focus().setHorizontalRule().run()">
                     <v-icon>mdi-minus</v-icon>
@@ -169,6 +179,8 @@ export default {
             editor: null,
             color: "",
             dialog: null,
+            align_toggler: 0,
+            text_type_toggler: 0,
         }
     },
     methods: {
@@ -207,6 +219,10 @@ export default {
                 .setLink({ href: url })
                 .run()
         },
+        logActive() {
+            let state = this.editor.isActive({ textAlign: 'left' })
+            console.log(state)
+        }
     },
 
     mounted() {
@@ -215,7 +231,7 @@ export default {
                 StarterKit.configure({
                     history: true,
                     heading: {
-                        levels: [1, 2, 3],
+                        levels: [1, 2, 3, 4],
                     },
                     blockquote: {},
                     codeBlock: {},
@@ -265,6 +281,16 @@ blockquote {
     border-left: 3px solid grey;
     background-color: #fcfeff;
     font-size: 1.2em;
+}
+.ProseMirror h1 {
+    border-left: 12.5px solid #EE4A85;
+    padding-top: .75rem;
+    min-height: 2.5rem;
+    padding-left: .5rem;
+    margin: .5rem auto;
+}
+.ProseMirror h2 {
+    color: #EE4A85;
 }
 </style>
 
