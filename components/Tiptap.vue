@@ -99,9 +99,15 @@
                         <v-btn
                         v-bind="attrs"
                         v-on="on"
-                        :color="textHighlight"
-                        >                            
-                            <v-icon class="cols 12">mdi-format-color-text</v-icon>
+                        >        
+                             <v-row
+                            align="center"
+                            class="flex-column"
+                            justify="center"
+                            :style="{ backgroundColor: textHighlight }"
+                            >          
+                                <v-icon class="cols 12">mdi-format-color-text</v-icon>
+                            </v-row>
                         </v-btn>
                     </template>
 
@@ -204,6 +210,7 @@ import TextAlign from '@tiptap/extension-text-align'
 import TextStyle from '@tiptap/extension-text-style'
 import Color from '@tiptap/extension-color'
 import Link from '@tiptap/extension-link'
+import Hightlight from '@tiptap/extension-highlight'
 
 export default {
     components: {
@@ -231,7 +238,7 @@ export default {
         closeHighlight(color) {
             this.highlightDialog = false
             if(color) {
-                this.editor.commands.setHighlight({ color: color })
+                this.editor.chain().focus().toggleHighlight({ color: color }).run()
             }
         },
         setLink() {
@@ -291,6 +298,9 @@ export default {
                 TextStyle,
                 Color,
                 Link,
+                Hightlight.configure({
+                    multicolor: true,
+                })
             ],
             content: '',
         })
