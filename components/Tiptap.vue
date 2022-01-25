@@ -131,6 +131,11 @@
                             ></v-color-picker>
                             <v-btn
                             class="mt-4 ml-auto"
+                            plain
+                            @click="highlightDialog = false; editor.chain().focus().unsetHighlight().run()"
+                            >None</v-btn>
+                            <v-btn
+                            class="mt-4 ml-auto"
                             @click="closeHighlight(textHighlight)"
                             plain
                             color="blue"
@@ -243,7 +248,7 @@ export default {
         closeHighlight(color) {
             this.highlightDialog = false
             if(color) {
-                this.editor.chain().focus().toggleHighlight({ color: color }).run()
+                this.editor.chain().focus().setHighlight({ color: color }).run()
             }
         },
         setLink() {
