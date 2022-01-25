@@ -166,10 +166,15 @@
             </v-btn-toggle>
 
             <v-btn-toggle id="list">
-                <v-btn @click="editor.chain().focus().toggleBulletList().run()">
+                <v-btn 
+                @click="editor.chain().focus().toggleBulletList().run()"
+                >
                     <v-icon>mdi-format-list-bulleted</v-icon>
                 </v-btn>
-                <v-btn @click="editor.chain().focus().toggleOrderedList().run()">
+                <v-btn 
+                @click="editor.chain().focus().toggleOrderedList().run()"
+                
+                >
                     <v-icon>mdi-format-list-numbered</v-icon>
                 </v-btn>
             </v-btn-toggle>
@@ -206,6 +211,59 @@
                 </v-btn>
             </v-btn-toggle>
 
+            <v-dialog
+                v-model="q_dialog"
+                width="500"
+                >
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                    v-bind="attrs"
+                    v-on="on">
+                        <v-row
+                        align="center"
+                        class="flex-column"
+                        justify="center"
+                        >
+                            <v-icon class="cols 12">mdi-format-color-text</v-icon>
+                            <v-sheet
+                            tile
+                            style="margin-top: -4px;"
+                            height="4"
+                            width="26"
+                            :color="q_color"
+                            ></v-sheet>
+                        </v-row>
+                    </v-btn>
+                </template>
+
+                <v-card width="500">
+                    <v-card-title>Color Picker</v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-text>
+                        <v-color-picker
+                        width="490"
+                        dot-size="25"
+                        show-swatches
+                        swatches-max-height="100"
+                        mode="hexa"
+                        hide-inputs
+                        v-model="q_color"
+                        ></v-color-picker>
+                        <v-btn
+                        class="mt-4 ml-auto"
+                        plain
+                        @click="q_dialog = false; "
+                        >Default</v-btn>
+                        <v-btn
+                        class="mt-4 ml-auto"
+                        @click="closeQDialog(q_color)"
+                        plain
+                        color="blue"
+                        >Done</v-btn>
+                    </v-card-text>
+                </v-card>                       
+            </v-dialog>
+
         </v-card>
         <editor-content :editor="editor" />
     </div>
@@ -229,6 +287,7 @@ export default {
 
     data() {
         return {
+            bulletListActive: null,
             editor: null,
             color: "",
             dialog: null,
@@ -236,6 +295,9 @@ export default {
             text_type_toggler: 0,
             highlightDialog: null,
             textHighlight: "",
+
+            q_color: '#f0faff',
+            q_dialog: null,
         }
     },
     methods: {
@@ -280,13 +342,18 @@ export default {
                 .setLink({ href: url })
                 .run()
         },
-        logActive() {
-            let state = this.editor.isActive({ textAlign: 'left' })
-            console.log(state)
-        }
+        closeQDialog(color) {
+            this.editor.chain().focus().toggleBlockquote().run()
+            let bq = document.getElementById('blockquote')
+            if(bq) {
+                bq.style.backgroundColor = color
+                console.log(bq)
+            }
+            this.q_dialog = false
+        },        
     },
 
-    mounted() {
+    mounted() {       
         this.editor = new Editor({
             extensions: [
                 StarterKit.configure({
@@ -294,7 +361,11 @@ export default {
                     heading: {
                         levels: [1, 2, 3, 4],
                     },
-                    blockquote: {},
+                    blockquote: {
+                        HTMLAttributes: {
+                            id: 'blockquote',
+                        }
+                    },
                     codeBlock: {},
                     horizontalRule: {},
                 }),
@@ -314,6 +385,7 @@ export default {
             ],
             content: '',
         })
+        
     },
 
     beforeUnmount() {
@@ -339,11 +411,10 @@ export default {
   font-style: italic;
   height: 0;
 }
-blockquote {
+#blockquote {
     margin: 0 1rem;
     padding: .5rem 0 .01rem 1rem;
-    border-left: 3px solid grey;
-    background-color: #fcfeff;
+    border-radius: 5px;
     font-size: 1.2em;
 }
 .ProseMirror h1 {
