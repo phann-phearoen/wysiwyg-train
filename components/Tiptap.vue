@@ -91,6 +91,42 @@
                         </v-card-text>
                     </v-card>                       
                 </v-dialog>
+                <v-dialog
+                    v-model="highlightDialog"
+                    width="500"
+                    >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        v-bind="attrs"
+                        v-on="on"
+                        :color="textHighlight"
+                        >                            
+                            <v-icon class="cols 12">mdi-format-color-text</v-icon>
+                        </v-btn>
+                    </template>
+
+                    <v-card width="500">
+                        <v-card-title>Color Picker</v-card-title>
+                        <v-divider></v-divider>
+                        <v-card-text>
+                            <v-color-picker
+                            width="490"
+                            dot-size="25"
+                            show-swatches
+                            swatches-max-height="100"
+                            mode="hexa"
+                            hide-inputs
+                            v-model="textHighlight"
+                            ></v-color-picker>
+                            <v-btn
+                            class="mt-4 ml-auto"
+                            @click="closeHighlight(textHighlight)"
+                            plain
+                            color="blue"
+                            >Done</v-btn>
+                        </v-card-text>
+                    </v-card>                       
+                </v-dialog>
             </v-btn-toggle>
 
             <v-btn-toggle id="align"
@@ -181,6 +217,8 @@ export default {
             dialog: null,
             align_toggler: 0,
             text_type_toggler: 0,
+            highlightDialog: null,
+            textHighlight: "",
         }
     },
     methods: {
@@ -188,6 +226,12 @@ export default {
             this.dialog = false
             if(color) {
                 this.editor.chain().focus().setColor(color).run()
+            }
+        },
+        closeHighlight(color) {
+            this.highlightDialog = false
+            if(color) {
+                this.editor.commands.setHighlight({ color: color })
             }
         },
         setLink() {
