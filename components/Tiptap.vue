@@ -218,20 +218,15 @@
                 <template v-slot:activator="{ on, attrs }">
                     <v-btn
                     v-bind="attrs"
-                    v-on="on">
-                        <v-row
+                    v-on="on"
+                    >        
+                            <v-row
                         align="center"
                         class="flex-column"
                         justify="center"
-                        >
+                        :style="{ backgroundColor: q_color }"
+                        >          
                             <v-icon class="cols 12">mdi-format-color-text</v-icon>
-                            <v-sheet
-                            tile
-                            style="margin-top: -4px;"
-                            height="4"
-                            width="26"
-                            :color="q_color"
-                            ></v-sheet>
                         </v-row>
                     </v-btn>
                 </template>
@@ -252,18 +247,17 @@
                         <v-btn
                         class="mt-4 ml-auto"
                         plain
-                        @click="q_dialog = false; "
-                        >Default</v-btn>
+                        @click="q_dialog = false"
+                        >None</v-btn>
                         <v-btn
                         class="mt-4 ml-auto"
-                        @click="closeQDialog(q_color)"
+                        @click="closeQ(q_color)"
                         plain
                         color="blue"
                         >Done</v-btn>
                     </v-card-text>
                 </v-card>                       
             </v-dialog>
-
         </v-card>
         <editor-content :editor="editor" />
     </div>
@@ -342,18 +336,13 @@ export default {
                 .setLink({ href: url })
                 .run()
         },
-        closeQDialog(color) {
-            this.editor.chain().focus().toggleBlockquote().run()
-            let bq = document.getElementById('blockquote')
-            if(bq) {
-                bq.style.backgroundColor = color
-                console.log(bq)
-            }
-            this.q_dialog = false
-        },        
+        closeQ(color) {
+            // this.editor.chain().focus().setBlockquote({ color: color }).run()
+            // this.q_dialog = false
+        }
     },
 
-    mounted() {       
+    mounted() {
         this.editor = new Editor({
             extensions: [
                 StarterKit.configure({
@@ -361,13 +350,11 @@ export default {
                     heading: {
                         levels: [1, 2, 3, 4],
                     },
-                    blockquote: {
-                        HTMLAttributes: {
-                            id: 'blockquote',
-                        }
-                    },
                     codeBlock: {},
                     horizontalRule: {},
+                    blockquote: {
+                        HTMLAttributes: { id: 'blockquote' }
+                    }
                 }),
                 Placehoder.configure({
                     placeholder: "say something, I'm giving up on you..."
@@ -381,7 +368,7 @@ export default {
                 Link,
                 Hightlight.configure({
                     multicolor: true,
-                })
+                }),
             ],
             content: '',
         })
@@ -415,6 +402,7 @@ export default {
     margin: 0 1rem;
     padding: .5rem 0 .01rem 1rem;
     border-radius: 5px;
+    background-color: lavender;
     font-size: 1.2em;
 }
 .ProseMirror h1 {
