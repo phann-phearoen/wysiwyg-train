@@ -2,7 +2,7 @@ import { Node } from '@tiptap/core'
 
 export const Textbox = Node.create({
 
-  name: 'blockquote',
+  name: 'textbox',
 
   content: 'block+',
 
