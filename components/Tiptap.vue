@@ -203,15 +203,7 @@
                 <v-btn @click="editor.chain().focus().toggleBlockquote().run()">
                     <v-icon>mdi-format-quote-open</v-icon>
                 </v-btn>
-                <v-btn @click="editor.chain().focus().setHorizontalRule().run()">
-                    <v-icon>mdi-minus</v-icon>
-                </v-btn>
-                <v-btn @click="setLink">
-                    <v-icon>mdi-link</v-icon>
-                </v-btn>
-            </v-btn-toggle>
-
-            <v-dialog
+                <v-dialog
                 v-model="q_dialog"
                 width="500"
                 >
@@ -226,7 +218,7 @@
                         justify="center"
                         :style="{ backgroundColor: q_color }"
                         >          
-                            <v-icon class="cols 12">mdi-format-color-text</v-icon>
+                            <v-icon class="cols 12">mdi-alpha-p-box-outline</v-icon>
                         </v-row>
                     </v-btn>
                 </template>
@@ -258,7 +250,13 @@
                     </v-card-text>
                 </v-card>                       
             </v-dialog>
-            <div>{{ q_color }}</div>
+                <v-btn @click="editor.chain().focus().setHorizontalRule().run()">
+                    <v-icon>mdi-minus</v-icon>
+                </v-btn>
+                <v-btn @click="setLink">
+                    <v-icon>mdi-link</v-icon>
+                </v-btn>
+            </v-btn-toggle>
         </v-card>
         <editor-content :editor="editor" />
     </div>
