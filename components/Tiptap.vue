@@ -273,6 +273,7 @@ import Color from '@tiptap/extension-color'
 import Link from '@tiptap/extension-link'
 import Hightlight from '@tiptap/extension-highlight'
 import Textbox from '../modules/Textbox'
+import CustomImage from '../modules/TipTapImage'
 
 export default {
     components: {
@@ -368,6 +369,7 @@ export default {
                 Link,
                 Hightlight,
                 Textbox,
+                new TipTapCustomImage(),
             ],
             content: '',
         })        

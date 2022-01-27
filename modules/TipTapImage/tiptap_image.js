@@ -1,6 +1,6 @@
 import { Node, Plugin } from 'tiptap';
 import { nodeInputRule } from 'tiptap-commands';
-import TipTapImageComponent from '~/components/editor/TipTapImageComponent';
+import TipTapImageComponent from '../../components/TipTapImageComponent';
 const IMAGE_INPUT_REGEX = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/;
 export default class CustomImage extends Node {
     get name() {
