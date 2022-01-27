@@ -258,6 +258,7 @@
                     </v-card-text>
                 </v-card>                       
             </v-dialog>
+            <div>{{ q_color }}</div>
         </v-card>
         <editor-content :editor="editor" />
     </div>
@@ -273,6 +274,7 @@ import TextStyle from '@tiptap/extension-text-style'
 import Color from '@tiptap/extension-color'
 import Link from '@tiptap/extension-link'
 import Hightlight from '@tiptap/extension-highlight'
+import Textbox from '../modules/Textbox'
 
 export default {
     components: {
@@ -304,7 +306,7 @@ export default {
         closeHighlight(color) {
             this.highlightDialog = false
             if(color) {
-                this.editor.chain().focus().setHighlight({ color: color }).run()
+                this.editor.chain().focus().setHighlight({ color }).run()
             }
         },
         setLink() {
@@ -337,8 +339,8 @@ export default {
                 .run()
         },
         closeQ(color) {
-            // this.editor.chain().focus().setBlockquote({ color: color }).run()
-            // this.q_dialog = false
+            this.q_dialog = false
+            this.editor.chain().focus().setTextbox({ color: color }).run()
         }
     },
 
@@ -366,13 +368,11 @@ export default {
                 TextStyle,
                 Color,
                 Link,
-                Hightlight.configure({
-                    multicolor: true,
-                }),
+                Hightlight,
+                Textbox,
             ],
             content: '',
-        })
-        
+        })        
     },
 
     beforeUnmount() {
@@ -400,9 +400,15 @@ export default {
 }
 #blockquote {
     margin: 0 1rem;
-    padding: .5rem 0 .01rem 1rem;
+    padding: .5rem 0 .1rem 1rem;
     border-radius: 5px;
-    background-color: lavender;
+    font-size: 1.2em;
+    background-color: salmon;
+}
+#textbox {
+    margin: .5rem;
+    padding: .5rem;
+    border-radius: 3px;
     font-size: 1.2em;
 }
 .ProseMirror h1 {
