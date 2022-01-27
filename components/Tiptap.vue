@@ -204,7 +204,7 @@
                     <v-icon>mdi-format-quote-open</v-icon>
                 </v-btn>
                 <v-dialog
-                v-model="q_dialog"
+                v-model="tb_dialog"
                 width="500"
                 >
                 <template v-slot:activator="{ on, attrs }">
@@ -216,7 +216,7 @@
                         align="center"
                         class="flex-column"
                         justify="center"
-                        :style="{ backgroundColor: q_color }"
+                        :style="{ backgroundColor: tb_color }"
                         >          
                             <v-icon class="cols 12">mdi-alpha-p-box-outline</v-icon>
                         </v-row>
@@ -234,16 +234,16 @@
                         swatches-max-height="100"
                         mode="hexa"
                         hide-inputs
-                        v-model="q_color"
+                        v-model="tb_color"
                         ></v-color-picker>
                         <v-btn
                         class="mt-4 ml-auto"
                         plain
-                        @click="q_dialog = false"
+                        @click="tb_dialog = false"
                         >None</v-btn>
                         <v-btn
                         class="mt-4 ml-auto"
-                        @click="closeQ(q_color)"
+                        @click="closeQ(tb_color)"
                         plain
                         color="blue"
                         >Done</v-btn>
@@ -290,8 +290,8 @@ export default {
             highlightDialog: null,
             textHighlight: "",
 
-            q_color: '#f0faff',
-            q_dialog: null,
+            tb_color: '#f0faff',
+            tb_dialog: null,
         }
     },
     methods: {
@@ -337,7 +337,7 @@ export default {
                 .run()
         },
         closeQ(color) {
-            this.q_dialog = false
+            this.tb_dialog = false
             this.editor.chain().focus().setTextbox({ color: color }).run()
         }
     },
