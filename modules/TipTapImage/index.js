@@ -1,4 +1,4 @@
-import { CustomImage } from './tiptap_image'
+import CustomImage from './tiptap_image'
 
 export * from './tiptap_image'
 

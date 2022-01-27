@@ -1,4 +1,4 @@
-import { Node, Plugin } from 'tiptap';
+import { Node, Plugin  } from 'tiptap';
 import { nodeInputRule } from 'tiptap-commands';
 import TipTapImageComponent from '../../components/TipTapImageComponent';
 const IMAGE_INPUT_REGEX = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/;
