@@ -23,17 +23,18 @@
                 >
                     <v-icon>mdi-arrow-u-right-top</v-icon>
                 </v-btn>
-            </div>
-           
+            </div>           
 
             <div id="text-style"
             class="d-inline mr-4"
-            multiple>
+            multiple
+            >
                 <v-btn
-                @click="editor.chain().focus().toggleBold().run()"
+                @click="editor.chain().focus().toggleBold().run(); textStyleActivator()"
                 small
                 elevation="0"
                 fab
+                :color=" text_style_toggler.includes('bold') ? '#c5d4ed' : '' "
                 >
                     <v-icon>mdi-format-bold</v-icon>
                 </v-btn>
@@ -369,6 +370,8 @@ export default {
             highlightDialog: null,
             textHighlight: "",
 
+            text_style_toggler: [],
+
             tb_color: '#f0faff',
             tb_dialog: null,
         }
@@ -426,6 +429,18 @@ export default {
                 this.editor.chain().focus().setImage({ src: url }).run()
             }
         },
+
+        textStyleActivator() {
+            if( this.editor.isActive('bold')) {
+                this.text_style_toggler.push('bold')
+                console.log(this.editor.isActive('bold'))
+            }
+            else {
+                const i = this.text_style_toggler.indexOf('bold')
+                this.text_style_toggler.splice(i, 1)
+            }
+            console.log(this.text_style_toggler)
+        }
     },
 
     mounted() {
