@@ -6,7 +6,6 @@
         >
             <v-btn-toggle id="history">
                 <v-btn
-                @click="editor.chain().focus().undo().run()"
                 :disabled="!editor"
                 >
                     <v-icon>mdi-arrow-u-left-top</v-icon>
@@ -256,6 +255,9 @@
                 <v-btn @click="setLink">
                     <v-icon>mdi-link</v-icon>
                 </v-btn>
+                <v-btn @click="addImage">
+                    <v-icon>mdi-image</v-icon>
+                </v-btn>
             </v-btn-toggle>
         </v-card>
         <editor-content :editor="editor" />
@@ -273,7 +275,7 @@ import Color from '@tiptap/extension-color'
 import Link from '@tiptap/extension-link'
 import Hightlight from '@tiptap/extension-highlight'
 import Textbox from '../modules/Textbox'
-import CustomImage from '../modules/TipTapImage'
+import Image from '@tiptap/extension-image'
 
 export default {
     components: {
@@ -340,7 +342,14 @@ export default {
         closeQ(color) {
             this.tb_dialog = false
             this.editor.chain().focus().setTextbox({ color: color }).run()
-        }
+        },
+        addImage() {
+            const url = window.prompt('URL')
+
+            if (url) {
+                this.editor.chain().focus().setImage({ src: url }).run()
+            }
+        },
     },
 
     mounted() {
@@ -369,7 +378,7 @@ export default {
                 Link,
                 Hightlight,
                 Textbox,
-                new TipTapCustomImage(),
+                Image,
             ],
             content: '',
         })        
