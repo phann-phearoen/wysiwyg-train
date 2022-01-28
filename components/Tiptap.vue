@@ -385,6 +385,7 @@
                             type="file"
                             label="Upload"
                             prepend-icon="mdi-image"
+                            show-size
                             accept="image/png, image/gif, image/jpeg"
                             placeholder="PNG, GIF, JPGのみ"
                             @change="onFileChange"
@@ -533,7 +534,9 @@ export default {
                     multicolor: true,
                 }),
                 Textbox,
-                Image,
+                Image.configure({
+                    inline: true,
+                }),
             ],
             content: '',
         })        
