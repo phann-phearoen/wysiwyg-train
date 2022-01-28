@@ -423,8 +423,8 @@ import Color from '@tiptap/extension-color'
 import Link from '@tiptap/extension-link'
 import Hightlight from '@tiptap/extension-highlight'
 import Textbox from '../modules/Textbox'
-import Image from '@tiptap/extension-image'
-//import CustomImage from '../modules/TipTapImage'
+//import Image from '@tiptap/extension-image'
+import CustomImage from '../modules/TipTapImage'
 
 export default {
     components: {
@@ -536,10 +536,8 @@ export default {
                     multicolor: true,
                 }),
                 Textbox,
-                Image.configure({
-                    inline: true,
-                }),
-                //new CustomImage(),
+                
+                new CustomImage(),
             ],
             content: '',
         })        
