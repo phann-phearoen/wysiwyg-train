@@ -9,7 +9,7 @@
                 :disabled="!editor"
                 small
                 elevation="0"
-                fab
+                icon
                 >
                     <v-icon>mdi-arrow-u-left-top</v-icon>
                 </v-btn>
@@ -18,7 +18,7 @@
                 :disabled="!editor"
                 small
                 elevation="0"
-                fab
+                icon
                 >
                     <v-icon>mdi-arrow-u-right-top</v-icon>
                 </v-btn>
@@ -33,7 +33,7 @@
                 @click="editor.chain().focus().toggleBold().run()"                
                 small
                 elevation="0"
-                fab
+                icon
                 :color=" editor.isActive('bold') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-bold</v-icon>
@@ -42,7 +42,7 @@
                 @click="editor.chain().focus().toggleItalic().run()"
                 small
                 elevation="0"
-                fab
+                icon
                 :color=" editor.isActive('italic') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-italic</v-icon>
@@ -51,7 +51,7 @@
                 @click="editor.chain().focus().toggleUnderline().run()"
                 small
                 elevation="0"
-                fab
+                icon
                 :color=" editor.isActive('underline') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-underline</v-icon>
@@ -60,7 +60,7 @@
                 @click="editor.chain().focus().toggleStrike().run()"
                 small
                 elevation="0"
-                fab
+                icon
                 :color=" editor.isActive('strike') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-strikethrough</v-icon>
@@ -82,7 +82,7 @@
                         v-on="on"
                         small
                         elevation="0"
-                        fab
+                        icon
                         > 
                             <v-icon :color=" editor.isActive('textStyle') ? color : '' ">mdi-format-color-text</v-icon>
                         </v-btn>
@@ -127,7 +127,7 @@
                         v-on="on"
                         small
                         elevation="0"
-                        fab                       
+                        icon                       
                         >         
                             <v-icon :color=" editor.isActive('highlight') ? textHighlight : '' ">mdi-format-color-highlight</v-icon>
                         </v-btn>
@@ -168,7 +168,7 @@
             >
                 <v-btn 
                 @click="editor.chain().focus().setTextAlign('left').run()"
-                fab
+                icon
                 small
                 elevation="0"
                 :color=" editor.isActive({ textAlign: 'left' }) ? active_btn_color : '' "
@@ -177,7 +177,7 @@
                 </v-btn>
                 <v-btn 
                 @click="editor.chain().focus().setTextAlign('center').run()"
-                fab
+                icon
                 small
                 elevation="0"
                 :color=" editor.isActive({ textAlign: 'center' }) ? active_btn_color : '' "
@@ -186,7 +186,7 @@
                 </v-btn>
                 <v-btn 
                 @click="editor.chain().focus().setTextAlign('right').run()"
-                fab
+                icon
                 small
                 elevation="0"
                 :color=" editor.isActive({ textAlign: 'right' }) ? active_btn_color : '' "
@@ -195,7 +195,7 @@
                 </v-btn>
                 <v-btn 
                 @click="editor.chain().focus().setTextAlign('justify').run()"
-                fab
+                icon
                 small
                 elevation="0"
                 :color=" editor.isActive({ textAlign: 'justify' }) ? active_btn_color : '' "
@@ -210,7 +210,7 @@
             >
                 <v-btn 
                 @click="editor.chain().focus().toggleBulletList().run()"
-                fab
+                icon
                 small
                 elevation="0"
                 :color=" editor.isActive('bulletList') ? active_btn_color : '' "
@@ -219,7 +219,7 @@
                 </v-btn>
                 <v-btn 
                 @click="editor.chain().focus().toggleOrderedList().run()"
-                fab
+                icon
                 small
                 elevation="0"
                 :color=" editor.isActive('orderedList') ? active_btn_color : '' "
@@ -234,7 +234,7 @@
             >
                 <v-btn 
                 @click="editor.chain().focus().setParagraph()"
-                fab
+                icon
                 small
                 elevation="0"
                 :color=" editor.isActive('paragraph') ? active_btn_color : '' "
@@ -243,7 +243,7 @@
                 </v-btn>
                 <v-btn 
                 @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-                fab
+                icon
                 small
                 elevation="0"
                 :color=" editor.isActive('heading', { level: 1 }) ? active_btn_color : '' "
@@ -252,7 +252,7 @@
                 </v-btn>
                 <v-btn 
                 @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-                fab
+                icon
                 small
                 elevation="0"
                 :color=" editor.isActive('heading', { level: 2 }) ? active_btn_color : '' "
@@ -261,7 +261,7 @@
                 </v-btn>
                 <v-btn 
                 @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-                fab
+                icon
                 small
                 elevation="0"
                 :color=" editor.isActive('heading', { level: 3 }) ? active_btn_color : '' "
@@ -270,7 +270,7 @@
                 </v-btn>
                 <v-btn 
                 @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
-                fab
+                icon
                 small
                 elevation="0"
                 :color=" editor.isActive('heading', { level: 4 }) ? active_btn_color : '' "
@@ -285,7 +285,7 @@
             >
                 <v-btn
                 @click="editor.chain().focus().toggleBlockquote().run()"
-                fab
+                icon
                 small
                 elevation="0"
                 :color=" editor.isActive('blockquote') ? active_btn_color : '' "
@@ -301,7 +301,7 @@
                         <v-btn
                         v-bind="attrs"
                         v-on="on"
-                        fab
+                        icon
                         small
                         elevation="0"
                         :color="tb_color"
@@ -340,7 +340,7 @@
 
                 <v-btn 
                 @click="editor.chain().focus().setHorizontalRule().run()"
-                fab
+                icon
                 small
                 elevation="0"
                 >
@@ -348,7 +348,7 @@
                 </v-btn>
                 <v-btn 
                 @click="setLink"
-                fab
+                icon
                 small
                 elevation="0"
                 >
@@ -363,7 +363,7 @@
                         <v-btn                        
                         v-bind="attrs"
                         v-on="on"
-                        fab
+                        icon
                         small
                         elevation="0"
                         >
@@ -424,6 +424,7 @@ import Link from '@tiptap/extension-link'
 import Hightlight from '@tiptap/extension-highlight'
 import Textbox from '../modules/Textbox'
 import Image from '@tiptap/extension-image'
+//import CustomImage from '../modules/TipTapImage'
 
 export default {
     components: {
@@ -497,11 +498,13 @@ export default {
 				this.selectedFileLocalUrl = URL.createObjectURL(this.selectedFile);
 			}
 		},
-        addImage(url) {
+        async addImage(url) {
             if (url) {
-                this.editor.chain().focus().setImage({ src: url }).run()
+                await this.editor.chain().focus().setImage({ src: url }).run()
             }
             this.image_dialog = false
+            this.selectedFile = null
+            this.selectedFileLocalUrl = null
         },
     },
 
@@ -536,6 +539,7 @@ export default {
                 Image.configure({
                     inline: true,
                 }),
+                //new CustomImage(),
             ],
             content: '',
         })        
