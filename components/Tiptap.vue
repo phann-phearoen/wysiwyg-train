@@ -231,12 +231,14 @@
             
             <div id="heading"
             class="d-inline mr-4"
+            v-if="editor"
             >
                 <v-btn 
-                @click="editor.commands.setParagraph()"
+                @click="editor.chain().focus().setParagraph()"
                 fab
                 small
                 elevation="0"
+                :color=" editor.isActive('paragraph') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-paragraph</v-icon>
                 </v-btn>
@@ -245,6 +247,7 @@
                 fab
                 small
                 elevation="0"
+                :color=" editor.isActive('heading', { level: 1 }) ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-header-1</v-icon>
                 </v-btn>
@@ -253,6 +256,7 @@
                 fab
                 small
                 elevation="0"
+                :color=" editor.isActive('heading', { level: 2 }) ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-header-2</v-icon>
                 </v-btn>
@@ -261,6 +265,7 @@
                 fab
                 small
                 elevation="0"
+                :color=" editor.isActive('heading', { level: 3 }) ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-header-3</v-icon>
                 </v-btn>
@@ -269,6 +274,7 @@
                 fab
                 small
                 elevation="0"
+                :color=" editor.isActive('heading', { level: 4 }) ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-header-4</v-icon>
                 </v-btn>
@@ -276,12 +282,14 @@
             
             <div id="extras"
             class="d-inline mr-4"
+            v-if="editor"
             >
                 <v-btn
                 @click="editor.chain().focus().toggleBlockquote().run()"
                 fab
                 small
                 elevation="0"
+                :color=" editor.isActive('blockquote') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-quote-open</v-icon>
                 </v-btn>
@@ -506,7 +514,7 @@ export default {
     padding: .5rem 0 .1rem 1rem;
     border-radius: 5px;
     font-size: 1.2em;
-    background-color: salmon;
+    background-color: #DC9CA9;
 }
 #textbox {
     margin: .5rem;
