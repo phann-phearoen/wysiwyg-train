@@ -293,50 +293,52 @@
                 >
                     <v-icon>mdi-format-quote-open</v-icon>
                 </v-btn>
-                <v-dialog
-                v-model="tb_dialog"
-                width="500"
-                >
-                <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-                    fab
-                    small
-                    elevation="0"
-                    :color="tb_color"
-                    >     
-                        <v-icon class="cols 12">mdi-alpha-p-box-outline</v-icon>                        
-                    </v-btn>
-                </template>
 
-                <v-card width="500">
-                    <v-card-title>Color Picker</v-card-title>
-                    <v-divider></v-divider>
-                    <v-card-text>
-                        <v-color-picker
-                        width="490"
-                        dot-size="25"
-                        show-swatches
-                        swatches-max-height="100"
-                        mode="hexa"
-                        hide-inputs
-                        v-model="tb_color"
-                        ></v-color-picker>
+                <v-dialog id="textbox"
+                    v-model="tb_dialog"
+                    width="500"
+                    >
+                    <template v-slot:activator="{ on, attrs }">
                         <v-btn
-                        class="mt-4 ml-auto"
+                        v-bind="attrs"
+                        v-on="on"
+                        fab
+                        small
                         elevation="0"
-                        @click="tb_dialog = false"
-                        >None</v-btn>
-                        <v-btn
-                        class="mt-4 ml-auto"
-                        @click="closeQ(tb_color)"
-                        elevation="0"
-                        color="blue"
-                        >Done</v-btn>
-                    </v-card-text>
-                </v-card>                       
-            </v-dialog>
+                        :color="tb_color"
+                        >     
+                            <v-icon class="cols 12">mdi-alpha-p-box-outline</v-icon>                        
+                        </v-btn>
+                    </template>
+
+                    <v-card width="500">
+                        <v-card-title>Color Picker</v-card-title>
+                        <v-divider></v-divider>
+                        <v-card-text>
+                            <v-color-picker
+                            width="490"
+                            dot-size="25"
+                            show-swatches
+                            swatches-max-height="100"
+                            mode="hexa"
+                            hide-inputs
+                            v-model="tb_color"
+                            ></v-color-picker>
+                            <v-btn
+                            class="mt-4 ml-auto"
+                            elevation="0"
+                            @click="tb_dialog = false"
+                            >None</v-btn>
+                            <v-btn
+                            class="mt-4 ml-auto"
+                            @click="closeQ(tb_color)"
+                            elevation="0"
+                            color="blue"
+                            >Done</v-btn>
+                        </v-card-text>
+                    </v-card>                       
+                </v-dialog>
+
                 <v-btn 
                 @click="editor.chain().focus().setHorizontalRule().run()"
                 fab
@@ -353,14 +355,57 @@
                 >
                     <v-icon>mdi-link</v-icon>
                 </v-btn>
-                <v-btn 
-                @click="addImage"
-                fab
-                small
-                elevation="0"
+                
+                <v-dialog
+                v-model="image_dialog"
+                max-width="600"
                 >
-                    <v-icon>mdi-image</v-icon>
-                </v-btn>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn                        
+                        v-bind="attrs"
+                        v-on="on"
+                        fab
+                        small
+                        elevation="0"
+                        >
+                            <v-icon>mdi-image</v-icon>
+                        </v-btn>
+                    </template>
+
+                    <v-card min-height="200">
+                        <v-card-title class="grey lighten-2">
+                        Image input
+                        </v-card-title>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                            <v-file-input
+                            v-model="selectedFile"
+                            type="file"
+                            label="Upload"
+                            prepend-icon="mdi-image"
+                            accept="image/png, image/gif, image/jpeg"
+                            placeholder="PNG, GIF, JPGのみ"
+                            @change="onFileChange"
+                            class="mr-4"
+                            >
+                            </v-file-input>
+                            
+                            <v-text-field
+                            v-if="!selectedFile"
+                            label="Input Url"
+                            style="max-width:50%"
+                            clearable
+                            v-model="selectedFileLocalUrl"
+                            ></v-text-field>
+                        </v-card-actions>
+                        
+                        <v-card-actions>
+                            <v-btn @click="addImage(selectedFileLocalUrl)">Done</v-btn>
+                        </v-card-actions>                        
+                    </v-card>
+                </v-dialog>
             </div>
         </v-card>
         <editor-content :editor="editor" />
@@ -395,6 +440,9 @@ export default {
             active_btn_color: '#00000029',
             tb_color: '#f0faff',
             tb_dialog: null,
+			selectedFile: null,
+			selectedFileLocalUrl: "",
+            image_dialog: null,
         }
     },
     methods: {
@@ -443,12 +491,17 @@ export default {
             this.tb_dialog = false
             this.editor.chain().focus().setTextbox({ color: color }).run()
         },
-        addImage() {
-            const url = window.prompt('URL')
-
+        onFileChange(payload) {
+			this.selectedFile = payload;
+			if (this.selectedFile) {
+				this.selectedFileLocalUrl = URL.createObjectURL(this.selectedFile);
+			}
+		},
+        addImage(url) {
             if (url) {
                 this.editor.chain().focus().setImage({ src: url }).run()
             }
+            this.image_dialog = false
         },
     },
 
