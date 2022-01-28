@@ -3,68 +3,88 @@
         <v-card
         outlined
         id="toolbar"
-        >
-            <v-btn-toggle id="history">
+        >   
+            <div class="d-inline mr-4">
                 <v-btn
                 :disabled="!editor"
+                small
+                elevation="0"
+                fab
                 >
                     <v-icon>mdi-arrow-u-left-top</v-icon>
                 </v-btn>
                 <v-btn
                 @click="editor.chain().focus().redo().run()"
                 :disabled="!editor"
+                small
+                elevation="0"
+                fab
                 >
                     <v-icon>mdi-arrow-u-right-top</v-icon>
                 </v-btn>
-            </v-btn-toggle>
+            </div>           
 
-            <v-btn-toggle id="text-style"
-            multiple>
+            <div id="text-style"
+            class="d-inline mr-4"
+            multiple
+            v-if="editor"
+            >
                 <v-btn
-                @click="editor.chain().focus().toggleBold().run()"
+                @click="editor.chain().focus().toggleBold().run()"                
+                small
+                elevation="0"
+                fab
+                :color=" editor.isActive('bold') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-bold</v-icon>
                 </v-btn>
                 <v-btn
                 @click="editor.chain().focus().toggleItalic().run()"
+                small
+                elevation="0"
+                fab
+                :color=" editor.isActive('italic') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-italic</v-icon>
                 </v-btn>
                 <v-btn
                 @click="editor.chain().focus().toggleUnderline().run()"
+                small
+                elevation="0"
+                fab
+                :color=" editor.isActive('underline') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-underline</v-icon>
                 </v-btn>
                 <v-btn
                 @click="editor.chain().focus().toggleStrike().run()"
+                small
+                elevation="0"
+                fab
+                :color=" editor.isActive('strike') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-strikethrough</v-icon>
                 </v-btn>                
-            </v-btn-toggle>
+            </div>
 
-            <v-btn-toggle id="color">
+            <div id="color"
+            class="d-inline mr-4"
+            v-if="editor"
+            >
                 <v-dialog
                     v-model="dialog"
                     width="500"
+                    id="text-color"
                     >
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
                         v-bind="attrs"
-                        v-on="on">
-                            <v-row
-                            align="center"
-                            class="flex-column"
-                            justify="center"
-                            >
-                                <v-icon class="cols 12">mdi-format-color-text</v-icon>
-                                <v-sheet
-                                tile
-                                style="margin-top: -4px;"
-                                height="4"
-                                width="26"
-                                :color="color"
-                                ></v-sheet>
-                            </v-row>
+                        v-on="on"
+                        small
+                        elevation="0"
+                        fab
+                        > 
+                            <v-icon :color=" editor.isActive('textStyle') ? color : '' ">mdi-format-color-text</v-icon>
                         </v-btn>
                     </template>
 
@@ -83,35 +103,33 @@
                             ></v-color-picker>
                             <v-btn
                             class="mt-4 ml-auto"
-                            plain
+                            elevation="0"
                             @click="dialog = false; editor.chain().focus().unsetColor().run(); "
                             >Default</v-btn>
                             <v-btn
                             class="mt-4 ml-auto"
                             @click="closeDialog(color)"
-                            plain
+                            elevation="0"
                             color="blue"
                             >Done</v-btn>
                         </v-card-text>
                     </v-card>                       
                 </v-dialog>
+
                 <v-dialog
                     v-model="highlightDialog"
                     width="500"
+                    id="highlight"
                     >
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
                         v-bind="attrs"
                         v-on="on"
-                        >        
-                             <v-row
-                            align="center"
-                            class="flex-column"
-                            justify="center"
-                            :style="{ backgroundColor: textHighlight }"
-                            >          
-                                <v-icon class="cols 12">mdi-format-color-text</v-icon>
-                            </v-row>
+                        small
+                        elevation="0"
+                        fab                       
+                        >         
+                            <v-icon :color=" editor.isActive('highlight') ? textHighlight : '' ">mdi-format-color-highlight</v-icon>
                         </v-btn>
                     </template>
 
@@ -130,135 +148,265 @@
                             ></v-color-picker>
                             <v-btn
                             class="mt-4 ml-auto"
-                            plain
+                            elevation="0"
                             @click="highlightDialog = false; editor.chain().focus().unsetHighlight().run()"
                             >None</v-btn>
                             <v-btn
                             class="mt-4 ml-auto"
                             @click="closeHighlight(textHighlight)"
-                            plain
+                            elevation="0"
                             color="blue"
                             >Done</v-btn>
                         </v-card-text>
                     </v-card>                       
                 </v-dialog>
-            </v-btn-toggle>
+            </div>
 
-            <v-btn-toggle id="align"
-            v-model="align_toggler"
+            <div id="align"
+            class="d-inline mr-4"
+            v-if="editor"
             >
                 <v-btn 
                 @click="editor.chain().focus().setTextAlign('left').run()"
-                class="v-item--active"
+                fab
+                small
+                elevation="0"
+                :color=" editor.isActive({ textAlign: 'left' }) ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-align-left</v-icon>
                 </v-btn>
-                <v-btn @click="editor.chain().focus().setTextAlign('center').run()">
+                <v-btn 
+                @click="editor.chain().focus().setTextAlign('center').run()"
+                fab
+                small
+                elevation="0"
+                :color=" editor.isActive({ textAlign: 'center' }) ? active_btn_color : '' "
+                >
                     <v-icon>mdi-format-align-center</v-icon>
                 </v-btn>
-                <v-btn @click="editor.chain().focus().setTextAlign('right').run()">
+                <v-btn 
+                @click="editor.chain().focus().setTextAlign('right').run()"
+                fab
+                small
+                elevation="0"
+                :color=" editor.isActive({ textAlign: 'right' }) ? active_btn_color : '' "
+                >
                     <v-icon>mdi-format-align-right</v-icon>
                 </v-btn>
-                <v-btn @click="editor.chain().focus().setTextAlign('justify').run()">
+                <v-btn 
+                @click="editor.chain().focus().setTextAlign('justify').run()"
+                fab
+                small
+                elevation="0"
+                :color=" editor.isActive({ textAlign: 'justify' }) ? active_btn_color : '' "
+                >
                     <v-icon>mdi-format-align-justify</v-icon>
                 </v-btn>
-            </v-btn-toggle>
+            </div>
 
-            <v-btn-toggle id="list">
+            <div id="list"
+            class="d-inline mr-4"
+            v-if="editor"
+            >
                 <v-btn 
                 @click="editor.chain().focus().toggleBulletList().run()"
+                fab
+                small
+                elevation="0"
+                :color=" editor.isActive('bulletList') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-list-bulleted</v-icon>
                 </v-btn>
                 <v-btn 
                 @click="editor.chain().focus().toggleOrderedList().run()"
-                
+                fab
+                small
+                elevation="0"
+                :color=" editor.isActive('orderedList') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-list-numbered</v-icon>
                 </v-btn>
-            </v-btn-toggle>
+            </div>
             
-            <v-btn-toggle id="heading"
-            v-model="text_type_toggler"
+            <div id="heading"
+            class="d-inline mr-4"
+            v-if="editor"
             >
-                <v-btn @click="editor.commands.setParagraph()">
+                <v-btn 
+                @click="editor.chain().focus().setParagraph()"
+                fab
+                small
+                elevation="0"
+                :color=" editor.isActive('paragraph') ? active_btn_color : '' "
+                >
                     <v-icon>mdi-format-paragraph</v-icon>
                 </v-btn>
-                 <v-btn @click="editor.chain().focus().toggleHeading({ level: 1 }).run()">
+                <v-btn 
+                @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+                fab
+                small
+                elevation="0"
+                :color=" editor.isActive('heading', { level: 1 }) ? active_btn_color : '' "
+                >
                     <v-icon>mdi-format-header-1</v-icon>
                 </v-btn>
-                <v-btn @click="editor.chain().focus().toggleHeading({ level: 2 }).run()">
+                <v-btn 
+                @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+                fab
+                small
+                elevation="0"
+                :color=" editor.isActive('heading', { level: 2 }) ? active_btn_color : '' "
+                >
                     <v-icon>mdi-format-header-2</v-icon>
                 </v-btn>
-                <v-btn @click="editor.chain().focus().toggleHeading({ level: 3 }).run()">
+                <v-btn 
+                @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+                fab
+                small
+                elevation="0"
+                :color=" editor.isActive('heading', { level: 3 }) ? active_btn_color : '' "
+                >
                     <v-icon>mdi-format-header-3</v-icon>
                 </v-btn>
-                 <v-btn @click="editor.chain().focus().toggleHeading({ level: 4 }).run()">
+                <v-btn 
+                @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
+                fab
+                small
+                elevation="0"
+                :color=" editor.isActive('heading', { level: 4 }) ? active_btn_color : '' "
+                >
                     <v-icon>mdi-format-header-4</v-icon>
                 </v-btn>
-            </v-btn-toggle>
+            </div>
             
-            <v-btn-toggle>
-                <v-btn @click="editor.chain().focus().toggleBlockquote().run()">
+            <div id="extras"
+            class="d-inline mr-4"
+            v-if="editor"
+            >
+                <v-btn
+                @click="editor.chain().focus().toggleBlockquote().run()"
+                fab
+                small
+                elevation="0"
+                :color=" editor.isActive('blockquote') ? active_btn_color : '' "
+                >
                     <v-icon>mdi-format-quote-open</v-icon>
                 </v-btn>
-                <v-dialog
-                v-model="tb_dialog"
-                width="500"
-                >
-                <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-                    >        
-                            <v-row
-                        align="center"
-                        class="flex-column"
-                        justify="center"
-                        :style="{ backgroundColor: tb_color }"
-                        >          
-                            <v-icon class="cols 12">mdi-alpha-p-box-outline</v-icon>
-                        </v-row>
-                    </v-btn>
-                </template>
 
-                <v-card width="500">
-                    <v-card-title>Color Picker</v-card-title>
-                    <v-divider></v-divider>
-                    <v-card-text>
-                        <v-color-picker
-                        width="490"
-                        dot-size="25"
-                        show-swatches
-                        swatches-max-height="100"
-                        mode="hexa"
-                        hide-inputs
-                        v-model="tb_color"
-                        ></v-color-picker>
+                <v-dialog id="textbox"
+                    v-model="tb_dialog"
+                    width="500"
+                    >
+                    <template v-slot:activator="{ on, attrs }">
                         <v-btn
-                        class="mt-4 ml-auto"
-                        plain
-                        @click="tb_dialog = false"
-                        >None</v-btn>
-                        <v-btn
-                        class="mt-4 ml-auto"
-                        @click="closeQ(tb_color)"
-                        plain
-                        color="blue"
-                        >Done</v-btn>
-                    </v-card-text>
-                </v-card>                       
-            </v-dialog>
-                <v-btn @click="editor.chain().focus().setHorizontalRule().run()">
+                        v-bind="attrs"
+                        v-on="on"
+                        fab
+                        small
+                        elevation="0"
+                        :color="tb_color"
+                        >     
+                            <v-icon class="cols 12">mdi-alpha-p-box-outline</v-icon>                        
+                        </v-btn>
+                    </template>
+
+                    <v-card width="500">
+                        <v-card-title>Color Picker</v-card-title>
+                        <v-divider></v-divider>
+                        <v-card-text>
+                            <v-color-picker
+                            width="490"
+                            dot-size="25"
+                            show-swatches
+                            swatches-max-height="100"
+                            mode="hexa"
+                            hide-inputs
+                            v-model="tb_color"
+                            ></v-color-picker>
+                            <v-btn
+                            class="mt-4 ml-auto"
+                            elevation="0"
+                            @click="tb_dialog = false"
+                            >None</v-btn>
+                            <v-btn
+                            class="mt-4 ml-auto"
+                            @click="closeQ(tb_color)"
+                            elevation="0"
+                            color="blue"
+                            >Done</v-btn>
+                        </v-card-text>
+                    </v-card>                       
+                </v-dialog>
+
+                <v-btn 
+                @click="editor.chain().focus().setHorizontalRule().run()"
+                fab
+                small
+                elevation="0"
+                >
                     <v-icon>mdi-minus</v-icon>
                 </v-btn>
-                <v-btn @click="setLink">
+                <v-btn 
+                @click="setLink"
+                fab
+                small
+                elevation="0"
+                >
                     <v-icon>mdi-link</v-icon>
                 </v-btn>
-                <v-btn @click="addImage">
-                    <v-icon>mdi-image</v-icon>
-                </v-btn>
-            </v-btn-toggle>
+                
+                <v-dialog
+                v-model="image_dialog"
+                max-width="600"
+                >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn                        
+                        v-bind="attrs"
+                        v-on="on"
+                        fab
+                        small
+                        elevation="0"
+                        >
+                            <v-icon>mdi-image</v-icon>
+                        </v-btn>
+                    </template>
+
+                    <v-card min-height="200">
+                        <v-card-title class="grey lighten-2">
+                        Image input
+                        </v-card-title>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                            <v-file-input
+                            v-model="selectedFile"
+                            type="file"
+                            label="Upload"
+                            prepend-icon="mdi-image"
+                            show-size
+                            accept="image/png, image/gif, image/jpeg"
+                            placeholder="PNG, GIF, JPGのみ"
+                            @change="onFileChange"
+                            class="mr-4"
+                            >
+                            </v-file-input>
+                            
+                            <v-text-field
+                            v-if="!selectedFile"
+                            label="Input Url"
+                            style="max-width:50%"
+                            clearable
+                            v-model="selectedFileLocalUrl"
+                            ></v-text-field>
+                        </v-card-actions>
+                        
+                        <v-card-actions>
+                            <v-btn @click="addImage(selectedFileLocalUrl)">Done</v-btn>
+                        </v-card-actions>                        
+                    </v-card>
+                </v-dialog>
+            </div>
         </v-card>
         <editor-content :editor="editor" />
     </div>
@@ -284,17 +432,17 @@ export default {
 
     data() {
         return {
-            bulletListActive: null,
             editor: null,
             color: "",
             dialog: null,
-            align_toggler: 0,
-            text_type_toggler: 0,
             highlightDialog: null,
             textHighlight: "",
-
+            active_btn_color: '#00000029',
             tb_color: '#f0faff',
             tb_dialog: null,
+			selectedFile: null,
+			selectedFileLocalUrl: "",
+            image_dialog: null,
         }
     },
     methods: {
@@ -343,12 +491,17 @@ export default {
             this.tb_dialog = false
             this.editor.chain().focus().setTextbox({ color: color }).run()
         },
-        addImage() {
-            const url = window.prompt('URL')
-
+        onFileChange(payload) {
+			this.selectedFile = payload;
+			if (this.selectedFile) {
+				this.selectedFileLocalUrl = URL.createObjectURL(this.selectedFile);
+			}
+		},
+        addImage(url) {
             if (url) {
                 this.editor.chain().focus().setImage({ src: url }).run()
             }
+            this.image_dialog = false
         },
     },
 
@@ -376,9 +529,13 @@ export default {
                 TextStyle,
                 Color,
                 Link,
-                Hightlight,
+                Hightlight.configure({
+                    multicolor: true,
+                }),
                 Textbox,
-                Image,
+                Image.configure({
+                    inline: true,
+                }),
             ],
             content: '',
         })        
@@ -412,7 +569,7 @@ export default {
     padding: .5rem 0 .1rem 1rem;
     border-radius: 5px;
     font-size: 1.2em;
-    background-color: salmon;
+    background-color: #DC9CA9;
 }
 #textbox {
     margin: .5rem;
