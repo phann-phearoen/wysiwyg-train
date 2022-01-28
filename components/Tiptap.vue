@@ -28,13 +28,14 @@
             <div id="text-style"
             class="d-inline mr-4"
             multiple
+            v-if="editor"
             >
                 <v-btn
-                @click="editor.chain().focus().toggleBold().run(); textStyleActivator()"
+                @click="editor.chain().focus().toggleBold().run()"                
                 small
                 elevation="0"
                 fab
-                :color=" text_style_toggler.includes('bold') ? '#c5d4ed' : '' "
+                :color=" editor.isActive('bold') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-bold</v-icon>
                 </v-btn>
@@ -43,6 +44,7 @@
                 small
                 elevation="0"
                 fab
+                :color=" editor.isActive('italic') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-italic</v-icon>
                 </v-btn>
@@ -51,6 +53,7 @@
                 small
                 elevation="0"
                 fab
+                :color=" editor.isActive('underline') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-underline</v-icon>
                 </v-btn>
@@ -59,6 +62,7 @@
                 small
                 elevation="0"
                 fab
+                :color=" editor.isActive('strike') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-strikethrough</v-icon>
                 </v-btn>                
@@ -66,10 +70,12 @@
 
             <div id="color"
             class="d-inline mr-4"
+            v-if="editor"
             >
                 <v-dialog
                     v-model="dialog"
                     width="500"
+                    id="text-color"
                     >
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
@@ -79,7 +85,7 @@
                         elevation="0"
                         fab
                         > 
-                            <v-icon :color="color" class="cols 12">mdi-format-color-text</v-icon>
+                            <v-icon :color=" editor.isActive('textStyle') ? color : '' ">mdi-format-color-text</v-icon>
                         </v-btn>
                     </template>
 
@@ -110,9 +116,11 @@
                         </v-card-text>
                     </v-card>                       
                 </v-dialog>
+
                 <v-dialog
                     v-model="highlightDialog"
                     width="500"
+                    id="highlight"
                     >
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
@@ -122,7 +130,7 @@
                         elevation="0"
                         fab                       
                         >         
-                            <v-icon :color="textHighlight" class="cols 12">mdi-format-color-highlight</v-icon>
+                            <v-icon :color=" editor.isActive('highlight') ? textHighlight : '' ">mdi-format-color-highlight</v-icon>
                         </v-btn>
                     </template>
 
@@ -157,12 +165,14 @@
 
             <div id="align"
             class="d-inline mr-4"
+            v-if="editor"
             >
                 <v-btn 
                 @click="editor.chain().focus().setTextAlign('left').run()"
                 fab
                 small
                 elevation="0"
+                :color=" editor.isActive({ textAlign: 'left' }) ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-align-left</v-icon>
                 </v-btn>
@@ -171,6 +181,7 @@
                 fab
                 small
                 elevation="0"
+                :color=" editor.isActive({ textAlign: 'center' }) ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-align-center</v-icon>
                 </v-btn>
@@ -179,6 +190,7 @@
                 fab
                 small
                 elevation="0"
+                :color=" editor.isActive({ textAlign: 'right' }) ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-align-right</v-icon>
                 </v-btn>
@@ -187,6 +199,7 @@
                 fab
                 small
                 elevation="0"
+                :color=" editor.isActive({ textAlign: 'justify' }) ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-align-justify</v-icon>
                 </v-btn>
@@ -194,12 +207,14 @@
 
             <div id="list"
             class="d-inline mr-4"
+            v-if="editor"
             >
                 <v-btn 
                 @click="editor.chain().focus().toggleBulletList().run()"
                 fab
                 small
                 elevation="0"
+                :color=" editor.isActive('bulletList') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-list-bulleted</v-icon>
                 </v-btn>
@@ -208,6 +223,7 @@
                 fab
                 small
                 elevation="0"
+                :color=" editor.isActive('orderedList') ? active_btn_color : '' "
                 >
                     <v-icon>mdi-format-list-numbered</v-icon>
                 </v-btn>
@@ -363,15 +379,12 @@ export default {
 
     data() {
         return {
-            bulletListActive: null,
             editor: null,
             color: "",
             dialog: null,
             highlightDialog: null,
             textHighlight: "",
-
-            text_style_toggler: [],
-
+            active_btn_color: '#00000029',
             tb_color: '#f0faff',
             tb_dialog: null,
         }
@@ -429,18 +442,6 @@ export default {
                 this.editor.chain().focus().setImage({ src: url }).run()
             }
         },
-
-        textStyleActivator() {
-            if( this.editor.isActive('bold')) {
-                this.text_style_toggler.push('bold')
-                console.log(this.editor.isActive('bold'))
-            }
-            else {
-                const i = this.text_style_toggler.indexOf('bold')
-                this.text_style_toggler.splice(i, 1)
-            }
-            console.log(this.text_style_toggler)
-        }
     },
 
     mounted() {
