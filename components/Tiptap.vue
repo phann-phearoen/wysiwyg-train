@@ -101,18 +101,22 @@
                             hide-inputs
                             v-model="color"
                             ></v-color-picker>
+                        </v-card-text>
+                        <v-card-actions>
                             <v-btn
                             class="mt-4 ml-auto"
                             elevation="0"
                             @click="dialog = false; editor.chain().focus().unsetColor().run(); "
                             >Default</v-btn>
+                            <v-spacer></v-spacer>
                             <v-btn
                             class="mt-4 ml-auto"
                             @click="closeDialog(color)"
                             elevation="0"
                             color="blue"
+                            dark
                             >Done</v-btn>
-                        </v-card-text>
+                        </v-card-actions>
                     </v-card>                       
                 </v-dialog>
 
@@ -146,18 +150,22 @@
                             hide-inputs
                             v-model="textHighlight"
                             ></v-color-picker>
+                        </v-card-text>
+                        <v-card-actions>
                             <v-btn
                             class="mt-4 ml-auto"
                             elevation="0"
                             @click="highlightDialog = false; editor.chain().focus().unsetHighlight().run()"
                             >None</v-btn>
+                            <v-spacer></v-spacer>
                             <v-btn
                             class="mt-4 ml-auto"
                             @click="closeHighlight(textHighlight)"
                             elevation="0"
                             color="blue"
+                            dark
                             >Done</v-btn>
-                        </v-card-text>
+                        </v-card-actions>
                     </v-card>                       
                 </v-dialog>
             </div>
@@ -378,14 +386,16 @@
                         </v-card-text>
                         <v-card-actions>
                             <v-btn
-                            class="mt-2 ml-auto"
+                            class="mt-2"
                             elevation="0"
                             @click="link_dialog = false"
                             >Cancel</v-btn>
+                            <v-spacer></v-spacer>
                             <v-btn
-                            class="mt-2 ml-auto"
+                            class="mt-2"
                             @click="setLink(link)"
                             elevation="0"
+                            dark
                             color="blue"
                             >Done</v-btn>
                         </v-card-actions>
@@ -439,7 +449,15 @@
                         </v-card-actions>
                         
                         <v-card-actions>
-                            <v-btn @click="addImage(selectedFileLocalUrl)">Done</v-btn>
+                            <v-btn 
+                            elevation="0"
+                            @click="image_dialog = false">Cancel</v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn 
+                            elevation="0"
+                            dark
+                            color="blue"
+                            @click="addImage(selectedFileLocalUrl)">Done</v-btn>
                         </v-card-actions>                        
                     </v-card>
                 </v-dialog>
