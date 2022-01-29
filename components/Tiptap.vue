@@ -463,6 +463,63 @@
                 </v-dialog>
             </div>
         </v-card>
+
+        <bubble-menu
+        class="bubble-menu" 
+        :editor="editor"
+        v-if="editor"
+        v-show="editor.isActive('custom-image')"
+        >
+            <v-btn
+            small
+            fab
+            @click="editor.chain().focus().setAttributes({ size: 'x-small' }).run()"
+            :class="{ 'is-active': editor.isActive('custom-image', { size: 'medium' }) }"
+            >
+                XS
+            </v-btn>
+            <v-btn
+            @click="editor.chain().focus().setAttributes({ size: 'small' }).run()"
+            :class="{ 'is-active': editor.isActive('custom-image', { size: 'medium' }) }"
+            small
+            fab
+            >
+                S
+            </v-btn>
+            <v-btn
+            small
+            fab
+            @click="editor.chain().focus().setAttributes({ size: 'medium' }).run()"
+            :class="{ 'is-active': editor.isActive('custom-image', { size: 'medium' }) }"
+            >
+                M
+            </v-btn>
+            <v-btn
+            small
+            fab
+            @click="editor.chain().focus().setAttributes({ size: 'large' }).run()"
+            :class="{ 'is-active': editor.isActive('custom-image', { size: 'medium' }) }"
+            >
+                L
+            </v-btn>
+            <v-btn
+            small
+            fab
+            @click="editor.chain().focus().setAttributes({ size: 'x-large' }).run()"
+            :class="{ 'is-active': editor.isActive('custom-image', { size: 'medium' }) }"
+            >
+                XL
+            </v-btn>
+            <v-btn
+            small
+            fab
+            @click="editor.chain().focus().setAttributes({ size: 'xx-large' }).run()"
+            :class="{ 'is-active': editor.isActive('custom-image', { size: 'medium' }) }"
+            >
+                XXL
+            </v-btn>
+        </bubble-menu>
+
         <editor-content :editor="editor" />
 
         <div>{{ link }}</div>
@@ -472,7 +529,7 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-2'
+import { Editor, EditorContent, BubbleMenu } from '@tiptap/vue-2'
 import StarterKit from '@tiptap/starter-kit'
 import Placehoder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
@@ -482,12 +539,13 @@ import Color from '@tiptap/extension-color'
 import Link from '@tiptap/extension-link'
 import Hightlight from '@tiptap/extension-highlight'
 import Textbox from '../modules/Textbox'
-import Image from '@tiptap/extension-image'
-// import CustomImage from '../modules/TipTapImage'
+// import Image from '@tiptap/extension-image'
+import CustomImage from '../modules/TipTapImage'
 
 export default {
     components: {
         EditorContent,
+        BubbleMenu,
     },
 
     data() {
@@ -598,10 +656,10 @@ export default {
                     multicolor: true,
                 }),
                 Textbox,
-                Image.configure({
+                CustomImage.configure({
+                    HTMLAttributes: { class: 'custom-image' },
                     inline: true
                 }),
-                // new CustomImage(),
             ],
             content: '',
         })
@@ -652,6 +710,27 @@ export default {
 }
 .ProseMirror h2 {
     color: #EE4A85;
+}
+.custom-image {
+    border-radius: 5px;
+}
+.custom-image-x-small {
+    width: 200px;
+}
+.custom-image-small {
+    width: 300px;
+}
+.custom-image-medium {
+    width: 400px;
+}
+.custom-image-large {
+    width: 500px;
+}
+.custom-image-x-large {
+    width: 600px;
+}
+.custom-image-xx-large {
+    width: 700px;
 }
 </style>
 
