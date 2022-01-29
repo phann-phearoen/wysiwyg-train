@@ -470,54 +470,33 @@
         v-if="editor"
         v-show="editor.isActive('custom-image')"
         >
-            <v-btn
-            small
-            fab
-            @click="editor.chain().focus().setAttributes({ width: '500' }).run()"
-            :class="{ 'is-active': editor.isActive('custom-image') }"
+            <v-card
+            min-width="350"
             >
-                XS
-            </v-btn>
-            <v-btn
-            @click="editor.chain().focus().setAttributes({ width: '600' }).run()"
-            :class="{ 'is-active': editor.isActive('custom-image') }"
-            small
-            fab
-            >
-                S
-            </v-btn>
-            <!-- <v-btn
-            small
-            fab
-            @click="editor.chain().focus().setAttributes({ size: 'medium' }).run()"
-            :class="{ 'is-active': editor.isActive('custom-image', { size: 'medium' }) }"
-            >
-                M
-            </v-btn>
-            <v-btn
-            small
-            fab
-            @click="editor.chain().focus().setAttributes({ size: 'large' }).run()"
-            :class="{ 'is-active': editor.isActive('custom-image', { size: 'medium' }) }"
-            >
-                L
-            </v-btn>
-            <v-btn
-            small
-            fab
-            @click="editor.chain().focus().setAttributes({ size: 'x-large' }).run()"
-            :class="{ 'is-active': editor.isActive('custom-image', { size: 'medium' }) }"
-            >
-                XL
-            </v-btn>
-            <v-btn
-            small
-            fab
-            @click="editor.chain().focus().setAttributes({ size: 'xx-large' }).run()"
-            :class="{ 'is-active': editor.isActive('custom-image', { size: 'medium' }) }"
-            >
-                XXL
-            </v-btn> -->
+                <v-subheader>Slide to adjust image width(100-1000px)</v-subheader>
+                <v-slider
+                max="1000"
+                min="100"
+                step="10"
+                v-model="img_width"
+                thumb-label
+                color="pink lighten-2"
+                :class="{ 'is-active': editor.isActive('custom-image') }"
+                @change="editor.commands.setAttributes({ width: img_width })"
+                >
+                    <template v-slot:append>
+                        <v-text-field
+                            v-model="img_width"
+                            class="mt-0 pt-0"
+                            hide-details
+                            single-line
+                            type="number"
+                            style="width: 60px"
+                            @change="editor.commands.setAttributes({ width: img_width })"
+                        ></v-text-field>
+                    </template>
+                </v-slider>
+            </v-card>
         </bubble-menu>
 
         <editor-content :editor="editor" />
@@ -563,6 +542,7 @@ export default {
             image_dialog: null,
             link_dialog: null,
             link: '',
+            img_width: 550,
         }
     },
     methods: {
