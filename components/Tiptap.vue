@@ -473,20 +473,20 @@
             <v-btn
             small
             fab
-            @click="editor.chain().focus().setAttributes({ size: 'x-small' }).run()"
-            :class="{ 'is-active': editor.isActive('custom-image', { size: 'medium' }) }"
+            @click="editor.chain().focus().setAttributes({ width: '500' }).run()"
+            :class="{ 'is-active': editor.isActive('custom-image') }"
             >
                 XS
             </v-btn>
             <v-btn
-            @click="editor.chain().focus().setAttributes({ size: 'small' }).run()"
-            :class="{ 'is-active': editor.isActive('custom-image', { size: 'medium' }) }"
+            @click="editor.chain().focus().setAttributes({ width: '600' }).run()"
+            :class="{ 'is-active': editor.isActive('custom-image') }"
             small
             fab
             >
                 S
             </v-btn>
-            <v-btn
+            <!-- <v-btn
             small
             fab
             @click="editor.chain().focus().setAttributes({ size: 'medium' }).run()"
@@ -517,7 +517,7 @@
             :class="{ 'is-active': editor.isActive('custom-image', { size: 'medium' }) }"
             >
                 XXL
-            </v-btn>
+            </v-btn> -->
         </bubble-menu>
 
         <editor-content :editor="editor" />

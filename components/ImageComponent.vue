@@ -1,7 +1,7 @@
 <template>
     <node-view-wrapper class="vue-component">
         <div class="content">
-            <v-img :src="node.attrs.img" contain></v-img>
+            <v-img :src="node.attrs.img_src" contain></v-img>
         <!-- <button @click="increase">
             This button has been clicked {{ node.attrs.count }} times.
         </button> -->
