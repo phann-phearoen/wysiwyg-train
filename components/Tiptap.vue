@@ -346,14 +346,51 @@
                 >
                     <v-icon>mdi-minus</v-icon>
                 </v-btn>
-                <v-btn 
-                @click="setLink"
-                icon
-                small
-                elevation="0"
-                >
-                    <v-icon>mdi-link</v-icon>
-                </v-btn>
+
+                <v-dialog id="link"
+                    v-model="link_dialog"
+                    width="500"
+                    >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn 
+                        icon
+                        small
+                        elevation="0"
+                        v-bind="attrs"
+                        v-on="on"
+                        >
+                            <v-icon>mdi-link</v-icon>
+                        </v-btn>
+                    </template>
+
+                    <v-card width="500">
+                        <v-card-title>Insert Link</v-card-title>
+                        <v-divider></v-divider>
+                        <v-card-text>
+                            <v-text-field
+                            v-model="link"
+                            label="URL"
+                            placeholder="Input URL"
+                            autofocus
+                            prefix="https://"
+                            clearable
+                            ></v-text-field>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-btn
+                            class="mt-2 ml-auto"
+                            elevation="0"
+                            @click="link_dialog = false"
+                            >Cancel</v-btn>
+                            <v-btn
+                            class="mt-2 ml-auto"
+                            @click="setLink(link)"
+                            elevation="0"
+                            color="blue"
+                            >Done</v-btn>
+                        </v-card-actions>
+                    </v-card>                       
+                </v-dialog>
                 
                 <v-dialog
                 v-model="image_dialog"
@@ -410,6 +447,8 @@
         </v-card>
         <editor-content :editor="editor" />
 
+        <div>{{ link }}</div>
+
         <div v-if="editor">{{ editor.getHTML() }}</div>
     </div>
 </template>
@@ -446,6 +485,8 @@ export default {
 			selectedFile: null,
 			selectedFileLocalUrl: "",
             image_dialog: null,
+            link_dialog: null,
+            link: '',
         }
     },
     methods: {
@@ -461,10 +502,8 @@ export default {
                 this.editor.chain().focus().setHighlight({ color }).run()
             }
         },
-        setLink() {
-            const previousUrl = this.editor.getAttributes('link').href
-            const url = window.prompt('URL', previousUrl)
-
+        setLink(receivedUrl) {
+            const url = 'https://' + receivedUrl
             // cancelled
             if (url === null) {
                 return
@@ -489,6 +528,9 @@ export default {
                 .extendMarkRange('link')
                 .setLink({ href: url })
                 .run()
+            //close dialog
+            this.link_dialog = false
+            this.link = ''
         },
         closeQ(color) {
             this.tb_dialog = false
