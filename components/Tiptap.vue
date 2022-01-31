@@ -700,9 +700,11 @@ export default {
 }
 .link {
     color: grey !important;
+    text-decoration: none;
 }
 .link:hover {
     color: #EE4A85 !important;
+    text-decoration: underline;
 }
 </style>
 
