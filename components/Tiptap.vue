@@ -401,8 +401,6 @@
                         </v-card-actions>
                     </v-card>                       
                 </v-dialog>
-
-
                 
                 <v-dialog
                 v-model="image_dialog"
@@ -463,6 +461,15 @@
                         </v-card-actions>                        
                     </v-card>
                 </v-dialog>
+
+                <v-btn
+                icon
+                small
+                elevation="0"
+                @click="editor.chain().focus().setButton().run()"
+                >
+                    <v-icon>mdi-gesture-tap-button</v-icon>
+                </v-btn>
             </div>
         </v-card>
 
@@ -520,8 +527,8 @@ import Color from '@tiptap/extension-color'
 import Link from '@tiptap/extension-link'
 import Hightlight from '@tiptap/extension-highlight'
 import Textbox from '../modules/Textbox'
-// import Image from '@tiptap/extension-image'
 import CustomImage from '../modules/TipTapImage'
+import CustomButtn from '../modules/CustomButton'
 
 export default {
     components: {
@@ -644,6 +651,7 @@ export default {
                     HTMLAttributes: { class: 'custom-image' },
                     inline: true
                 }),
+                CustomButtn,
             ],
             content: '',
         })
@@ -706,6 +714,12 @@ export default {
     color: #EE4A85 !important;
     text-decoration: underline;
 }
+/* .link {
+    background-color: hotpink;
+    border-radius: 3px;
+    padding: .5rem 5rem;
+    margin: .5rem auto;
+} */
 </style>
 
 <style scoped>
