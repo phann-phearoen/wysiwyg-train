@@ -401,6 +401,8 @@
                         </v-card-actions>
                     </v-card>                       
                 </v-dialog>
+
+
                 
                 <v-dialog
                 v-model="image_dialog"
@@ -631,7 +633,9 @@ export default {
                 }),
                 TextStyle,
                 Color,
-                Link,
+                Link.configure({
+                    HTMLAttributes: { class: 'link' }
+                }),
                 Hightlight.configure({
                     multicolor: true,
                 }),
@@ -694,23 +698,11 @@ export default {
 .custom-image {
     border-radius: 5px;
 }
-.custom-image-x-small {
-    width: 200px;
+.link {
+    color: grey !important;
 }
-.custom-image-small {
-    width: 300px;
-}
-.custom-image-medium {
-    width: 400px;
-}
-.custom-image-large {
-    width: 500px;
-}
-.custom-image-x-large {
-    width: 600px;
-}
-.custom-image-xx-large {
-    width: 700px;
+.link:hover {
+    color: #EE4A85 !important;
 }
 </style>
 

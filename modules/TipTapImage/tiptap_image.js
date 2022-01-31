@@ -3,10 +3,6 @@ import { mergeAttributes } from '@tiptap/core'
 
 export default Image.extend({
     name: 'custom-image',
-    // addOptions: {
-    //     ...Image.options,
-    //     sizes: ['x-small', 'small', 'medium', 'large', 'x-large', 'xx-large']
-    // },
     addAttributes() {
         return {
             ...Image.config.addAttributes(),
@@ -29,11 +25,6 @@ export default Image.extend({
                 return true
             },
             setAttributes: (attributes) => ({ tr, dispatch }) => {
-                // Check it's a valid size option
-                // if (!this.options.sizes.includes(attributes.size)) {
-                //     return false
-                // }
-
                 const { selection } = tr
                 const options = {
                     ...selection.node.attrs,
@@ -48,7 +39,6 @@ export default Image.extend({
         }
     },
     renderHTML({ node, HTMLAttributes }) {
-
         const width = node.attrs.width
         //HTMLAttributes.class = ' custom-image-' + size
         HTMLAttributes.style = `width: ${width}px`
