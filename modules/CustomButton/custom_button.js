@@ -1,4 +1,5 @@
-import { Node } from '@tiptap/core'
+import { Node, getAttributes } from '@tiptap/core'
+import { Plugin, PluginKey } from 'prosemirror-state'
 
 export const CustomButton = Node.create({
     name: 'CustomButton',
@@ -15,7 +16,7 @@ export const CustomButton = Node.create({
                 default: null
             },
             target: {
-                default: null,
+                default: '_blank',
             },
         }
     },
@@ -40,4 +41,27 @@ export const CustomButton = Node.create({
             },
         }
     },
+
+    addProseMirrorPlugins() {
+        const props = {
+            handleClick: (view, pos, event) => {
+                var _a;
+                var attrs = getAttributes(view.state, this.name)
+                var link = (_a = event.target) === null || _a === void 0 ? void 0 : _a.closest('button')
+                
+                if (link && attrs.href) {
+                    window.open(attrs.href, attrs.target);
+                    return true;
+                }
+                
+                return false;
+            },               
+        }
+
+        return [ 
+            new Plugin({
+               props 
+            })
+        ]
+    }
 })

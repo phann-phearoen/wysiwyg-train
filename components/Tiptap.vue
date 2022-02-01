@@ -466,7 +466,9 @@
                 icon
                 small
                 elevation="0"
-                @click="editor.chain().focus().setButton().run()"
+                @click="editor.chain().focus().setButton(
+                    { href: 'https://wannagrow.co.jp' }
+                ).run()"
                 >
                     <v-icon>mdi-gesture-tap-button</v-icon>
                 </v-btn>
@@ -513,6 +515,8 @@
         <div>{{ link }}</div>
 
         <div v-if="editor">{{ editor.getHTML() }}</div>
+
+        <a id="text-a"></a>
     </div>
 </template>
 
@@ -528,7 +532,7 @@ import Link from '@tiptap/extension-link'
 import Hightlight from '@tiptap/extension-highlight'
 import Textbox from '../modules/Textbox'
 import CustomImage from '../modules/TipTapImage'
-import CustomButtn from '../modules/CustomButton'
+import CustomButton from '../modules/CustomButton'
 
 export default {
     components: {
@@ -651,7 +655,7 @@ export default {
                     HTMLAttributes: { class: 'custom-image' },
                     inline: true
                 }),
-                CustomButtn,
+                CustomButton,
             ],
             content: '',
         })
@@ -714,12 +718,18 @@ export default {
     color: #EE4A85 !important;
     text-decoration: underline;
 }
-/* .link {
-    background-color: hotpink;
-    border-radius: 3px;
-    padding: .5rem 5rem;
+.custom-button {
+    background-color: indianred;
+    min-width: 200px;
     margin: .5rem auto;
-} */
+    display: block;
+    padding: .5rem 2rem;
+    border-radius: 5px;
+}
+.custom-button div{
+    font-size: 1.5em;
+    color: white;
+}
 </style>
 
 <style scoped>
