@@ -312,7 +312,7 @@
                         icon
                         small
                         elevation="0"
-                        :color="tb_color"
+                        :style="{ backgroundColor: tb_color }"
                         >     
                             <v-icon class="cols 12">mdi-alpha-p-box-outline</v-icon>                        
                         </v-btn>
@@ -331,18 +331,24 @@
                             hide-inputs
                             v-model="tb_color"
                             ></v-color-picker>
+                        </v-card-text>
+
+                        <v-card-actions>
                             <v-btn
                             class="mt-4 ml-auto"
                             elevation="0"
                             @click="tb_dialog = false"
                             >None</v-btn>
+
+                            <v-spacer></v-spacer>
+
                             <v-btn
                             class="mt-4 ml-auto"
                             @click="closeQ(tb_color)"
                             elevation="0"
                             color="blue"
                             >Done</v-btn>
-                        </v-card-text>
+                        </v-card-actions>                        
                     </v-card>                       
                 </v-dialog>
 
@@ -380,7 +386,6 @@
                             label="URL"
                             placeholder="Input URL"
                             autofocus
-                            prefix="https://"
                             clearable
                             ></v-text-field>
                         </v-card-text>
@@ -487,7 +492,6 @@
                             label="URL"
                             placeholder="Input URL"
                             autofocus
-                            prefix="https://"
                             clearable
                             ></v-text-field>
                             
@@ -501,6 +505,8 @@
                                     v-on="on"
                                     small
                                     elevation="0"
+                                    :color="custom_link.color"
+                                    dark
                                     >     
                                         Button Color           
                                     </v-btn>
@@ -519,18 +525,24 @@
                                         hide-inputs
                                         v-model="custom_link.color"
                                         ></v-color-picker>
+                                    </v-card-text>
+
+                                    <v-card-actions>
                                         <v-btn
-                                        class="mt-4 ml-auto"
+                                        class="mt-4"
                                         elevation="0"
-                                        @click="custom_link.dialog = false"
+                                        @click="custom_link.color_dialog = false"
                                         >Default</v-btn>
+
+                                        <v-spacer></v-spacer>
+
                                         <v-btn
-                                        class="mt-4 ml-auto"
+                                        class="mt-4"
                                         @click="custom_link.color_dialog = false"
                                         elevation="0"
                                         color="blue"
                                         >Done</v-btn>
-                                    </v-card-text>
+                                    </v-card-actions>                
                                 </v-card>                       
                             </v-dialog>
                         </v-card-text>
@@ -541,7 +553,9 @@
                             elevation="0"
                             @click="custom_link.url_dailog = false"
                             >Cancel</v-btn>
+
                             <v-spacer></v-spacer>
+
                             <v-btn
                             class="mt-2"
                             @click="setCustomLink(custom_link.href, custom_link.color)"
@@ -641,7 +655,7 @@ export default {
                 url_dailog: null,
                 href: '',
                 color_dialog: null,
-                color: '',
+                color: '#C090FC',
             }
         }
     },
@@ -658,8 +672,7 @@ export default {
                 this.editor.chain().focus().setHighlight({ color }).run()
             }
         },
-        setLink(receivedUrl) {
-            const url = 'https://' + receivedUrl
+        setLink(url) {
             // cancelled
             if (url === null) {
                 return
@@ -676,17 +689,23 @@ export default {
 
                 return
             }
+            else {
+                if(!url.includes('https://')) {
+                    url = 'https://' + url
+                }
+                // update link
+                this.editor
+                    .chain()
+                    .focus()
+                    .extendMarkRange('link')
+                    .setLink({ href: url })
+                    .run()
+                //close dialog
+                this.link_dialog = false
+                this.link = ''
+            }
 
-            // update link
-            this.editor
-                .chain()
-                .focus()
-                .extendMarkRange('link')
-                .setLink({ href: url })
-                .run()
-            //close dialog
-            this.link_dialog = false
-            this.link = ''
+
         },
         closeQ(color) {
             this.tb_dialog = false
@@ -706,15 +725,20 @@ export default {
             this.selectedFile = null
             this.selectedFileLocalUrl = null
         },
-        setCustomLink(receivedLink, color) {
-            console.log(color)
-            if(receivedLink) {
-                const link = 'https://' + receivedLink
+        setCustomLink(link, color) {
+            if(link && color) {
+                if(!link.includes('https://')) {
+                    link = 'https://' + receivedLink
+                }
                 this.editor.chain().focus().setButton(
-                    { href: link }
+                    { href: link, color: color }
                 ).run()
             }
+            else {
+                this.editor.chain().focus().setParagraph().run()
+            }
             this.custom_link.url_dailog = false
+            this.custom_link.href = ''
         }
     },
 
@@ -816,8 +840,7 @@ export default {
     text-decoration: underline;
 }
 .custom-button {
-    background-color: indianred;
-    min-width: 200px;
+    min-width: 250px;
     margin: .5rem auto;
     display: block;
     padding: .5rem 2rem;

@@ -18,6 +18,20 @@ export const CustomButton = Node.create({
             target: {
                 default: '_blank',
             },
+            color: {
+                default: null,
+                parseHTML: element => element.getAttribute('data-color') || element.style.backgroundColor,
+                renderHTML: attributes => {
+                    if (!attributes.color) {
+                        return {}
+                    }
+            
+                    return {
+                        'data-color': attributes.color,
+                        style: `background-color: ${attributes.color}`,
+                    }
+                },
+            },
         }
     },
 
@@ -53,7 +67,7 @@ export const CustomButton = Node.create({
                     window.open(attrs.href, attrs.target);
                     return true;
                 }
-                
+
                 return false;
             },               
         }
