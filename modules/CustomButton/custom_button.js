@@ -1,9 +1,9 @@
-import { Node, mergeAttributes } from '@tiptap/core'
+import { Node } from '@tiptap/core'
 
 export const CustomButton = Node.create({
     name: 'CustomButton',
 
-    content: 'block+',
+    content: 'inline*',
 
     group: 'block',
 
@@ -14,9 +14,9 @@ export const CustomButton = Node.create({
             href: {
                 default: null
             },
-            title: {
-                default: null
-            }
+            target: {
+                default: null,
+            },
         }
     },
 
@@ -30,17 +30,14 @@ export const CustomButton = Node.create({
 
     renderHTML({ HTMLAttributes }) {
         HTMLAttributes.class = 'custom-button'
-        return ['div', mergeAttributes(HTMLAttributes), 0]
+        return [ 'button', HTMLAttributes, [ 'div', 0]]
     },
 
     addCommands() {
         return {
             setButton: attributes => ({ commands }) => {
-                return commands.wrapIn(this.name, attributes)
+                return commands.setNode(this.name, attributes)
             },
-            unsetButton: () => ({ commands }) => {
-                return commands.lift(this.name)
-            }
         }
-    }
+    },
 })
