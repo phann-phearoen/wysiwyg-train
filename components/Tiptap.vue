@@ -728,7 +728,7 @@ export default {
         setCustomLink(link, color) {
             if(link && color) {
                 if(!link.includes('https://')) {
-                    link = 'https://' + receivedLink
+                    link = 'https://' + link
                 }
                 this.editor.chain().focus().setButton(
                     { href: link, color: color }
