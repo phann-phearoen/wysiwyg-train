@@ -462,8 +462,8 @@
                     </v-card>
                 </v-dialog>
 
-                <v-dialog id="link"
-                v-model="c_link_dialog"
+                <v-dialog id="custom-link"
+                v-model="custom_link.url_dailog"
                 width="500"
                 >
                     <template v-slot:activator="{ on, attrs }">
@@ -483,24 +483,68 @@
                         <v-divider></v-divider>
                         <v-card-text>
                             <v-text-field
-                            v-model="c_link_href"
+                            v-model="custom_link.href"
                             label="URL"
                             placeholder="Input URL"
                             autofocus
                             prefix="https://"
                             clearable
                             ></v-text-field>
+                            
+                            <v-dialog
+                            v-model="custom_link.color_dialog"
+                            width="500"
+                            >
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    small
+                                    elevation="0"
+                                    >     
+                                        Button Color           
+                                    </v-btn>
+                                </template>
+
+                                <v-card width="500">
+                                    <v-card-title>Color Picker</v-card-title>
+                                    <v-divider></v-divider>
+                                    <v-card-text>
+                                        <v-color-picker
+                                        width="490"
+                                        dot-size="25"
+                                        show-swatches
+                                        swatches-max-height="100"
+                                        mode="hexa"
+                                        hide-inputs
+                                        v-model="custom_link.color"
+                                        ></v-color-picker>
+                                        <v-btn
+                                        class="mt-4 ml-auto"
+                                        elevation="0"
+                                        @click="custom_link.dialog = false"
+                                        >Default</v-btn>
+                                        <v-btn
+                                        class="mt-4 ml-auto"
+                                        @click="custom_link.color_dialog = false"
+                                        elevation="0"
+                                        color="blue"
+                                        >Done</v-btn>
+                                    </v-card-text>
+                                </v-card>                       
+                            </v-dialog>
                         </v-card-text>
+
                         <v-card-actions>
                             <v-btn
                             class="mt-2"
                             elevation="0"
-                            @click="c_link_dialog = false"
+                            @click="custom_link.url_dailog = false"
                             >Cancel</v-btn>
                             <v-spacer></v-spacer>
                             <v-btn
                             class="mt-2"
-                            @click="setCustomLink(c_link_href)"
+                            @click="setCustomLink(custom_link.href, custom_link.color)"
                             elevation="0"
                             dark
                             color="blue"
@@ -592,8 +636,13 @@ export default {
             link_dialog: null,
             link: '',
             img_width: 550,
-            c_link_dialog: null,
-            c_link_href: '',
+            
+            custom_link: {
+                url_dailog: null,
+                href: '',
+                color_dialog: null,
+                color: '',
+            }
         }
     },
     methods: {
@@ -657,14 +706,15 @@ export default {
             this.selectedFile = null
             this.selectedFileLocalUrl = null
         },
-        setCustomLink(receivedLink) {
+        setCustomLink(receivedLink, color) {
+            console.log(color)
             if(receivedLink) {
                 const link = 'https://' + receivedLink
                 this.editor.chain().focus().setButton(
                     { href: link }
                 ).run()
             }
-            this.c_link_dialog = false
+            this.custom_link.url_dailog = false
         }
     },
 
