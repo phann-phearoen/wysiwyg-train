@@ -805,6 +805,10 @@ export default {
   font-style: italic;
   height: 0;
 }
+p {
+    line-height: 1 !important;
+}
+
 #blockquote {
     margin: 0 1rem;
     padding: .5rem 0 .1rem 1rem;
