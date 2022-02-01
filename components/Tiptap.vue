@@ -462,16 +462,52 @@
                     </v-card>
                 </v-dialog>
 
-                <v-btn
-                icon
-                small
-                elevation="0"
-                @click="editor.chain().focus().setButton(
-                    { href: 'https://wannagrow.co.jp' }
-                ).run()"
+                <v-dialog id="link"
+                v-model="c_link_dialog"
+                width="500"
                 >
-                    <v-icon>mdi-gesture-tap-button</v-icon>
-                </v-btn>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn 
+                        icon
+                        small
+                        elevation="0"
+                        v-bind="attrs"
+                        v-on="on"
+                        >
+                            <v-icon>mdi-gesture-tap-button</v-icon>
+                        </v-btn>
+                    </template>
+
+                    <v-card width="500">
+                        <v-card-title>Insert button link label</v-card-title>
+                        <v-divider></v-divider>
+                        <v-card-text>
+                            <v-text-field
+                            v-model="c_link_href"
+                            label="URL"
+                            placeholder="Input URL"
+                            autofocus
+                            prefix="https://"
+                            clearable
+                            ></v-text-field>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-btn
+                            class="mt-2"
+                            elevation="0"
+                            @click="c_link_dialog = false"
+                            >Cancel</v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                            class="mt-2"
+                            @click="setCustomLink(c_link_href)"
+                            elevation="0"
+                            dark
+                            color="blue"
+                            >Done</v-btn>
+                        </v-card-actions>
+                    </v-card>                       
+                </v-dialog>
             </div>
         </v-card>
 
@@ -556,6 +592,8 @@ export default {
             link_dialog: null,
             link: '',
             img_width: 550,
+            c_link_dialog: null,
+            c_link_href: '',
         }
     },
     methods: {
@@ -619,6 +657,15 @@ export default {
             this.selectedFile = null
             this.selectedFileLocalUrl = null
         },
+        setCustomLink(receivedLink) {
+            if(receivedLink) {
+                const link = 'https://' + receivedLink
+                this.editor.chain().focus().setButton(
+                    { href: link }
+                ).run()
+            }
+            this.c_link_dialog = false
+        }
     },
 
     mounted() {
