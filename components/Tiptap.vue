@@ -568,7 +568,10 @@
                 </v-dialog>
             </div>
 
-            <div id="table" class="d-inline">
+            <div id="table" 
+            class="d-inline"
+            v-if="editor"
+            >
                 <v-dialog id="table-dialog"
                     v-model="table.dialog"
                     width="500"
@@ -622,6 +625,48 @@
                         </v-card-actions>
                     </v-card>                       
                 </v-dialog>
+
+                <v-menu 
+                v-if="editor.isActive('table')"
+                offset-y>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        class="ml-2"
+                        small
+                        plain
+                        v-bind="attrs"
+                        v-on="on"
+                        >
+                        Options
+                        </v-btn>
+                    </template>
+                    <v-list dense>
+                        <v-list-item @click="editor.chain().focus().addColumnBefore().run()">
+                            Add column before
+                        </v-list-item>
+                        <v-list-item @click="editor.chain().focus().addColumnAfter().run()">
+                            Add column after
+                        </v-list-item>
+                        <v-list-item @click="editor.chain().focus().deleteColumn().run()">
+                            Delete column
+                        </v-list-item>
+                        <v-list-item @click="editor.chain().focus().addRowBefore().run()">
+                            Add row before
+                        </v-list-item>
+                        <v-list-item @click="editor.chain().focus().addRowAfter().run()">
+                            Add row after
+                        </v-list-item>
+                        <v-list-item @click="editor.chain().focus().deleteRow().run()">
+                            Delete row
+                        </v-list-item>
+                        <v-list-item @click="editor.chain().focus().mergeCells().run()">
+                            Merge cells
+                        </v-list-item>
+                        <v-list-item @click="editor.chain().focus().splitCell().run()">
+                            Split cell
+                        </v-list-item>
+                    </v-list>
+                    </v-menu>
             </div>
         </v-card>
 
