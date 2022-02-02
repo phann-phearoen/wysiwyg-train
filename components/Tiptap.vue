@@ -601,7 +601,6 @@
                             v-model="table.row"
                             label="Row"
                             placeholder="Number of rows"
-                            autofocus
                             clearable
                             ></v-text-field>
                         </v-card-text>
@@ -684,6 +683,10 @@ import Hightlight from '@tiptap/extension-highlight'
 import Textbox from '../modules/Textbox'
 import CustomImage from '../modules/TipTapImage'
 import CustomButton from '../modules/CustomButton'
+import Table from '@tiptap/extension-table'
+import TableRow from '@tiptap/extension-table-row'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
 
 export default {
     components: {
@@ -717,8 +720,8 @@ export default {
 
             table: {
                 dialog: null,
-                row: 0,
-                culumn: 0,
+                row: null,
+                culumn: null,
             }
         }
     },
@@ -802,6 +805,12 @@ export default {
             }
             this.custom_link.url_dailog = false
             this.custom_link.href = ''
+        },
+        setTable(cols, rows) {
+            this.editor.chain().focus().insertTable({ rows: rows, cols: cols, withHeaderRow: true }).run()
+            this.table.dialog = false
+            this.table.row = null
+            this.table.column = null
         }
     },
 
@@ -840,6 +849,12 @@ export default {
                     inline: true
                 }),
                 CustomButton,
+                Table.configure({
+                    resizable: true,
+                }),
+                TableRow,
+                TableHeader,
+                TableCell,
             ],
             content: '',
         })
@@ -851,7 +866,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .ProseMirror {
     min-height: 200px;
     border: 1.5px solid grey;
@@ -916,6 +931,69 @@ p {
 .custom-button div{
     font-size: 1.5em;
     color: white;
+}
+
+.ProseMirror {
+  table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+
+    td,
+    th {
+      min-width: 1em;
+      border: 1px solid grey;
+      padding: 3px 5px;
+      vertical-align: top;
+      box-sizing: border-box;
+      position: relative;
+
+      > * {
+        margin-bottom: 0;
+      }
+    }
+
+    th {
+      font-weight: bold;
+      text-align: left;
+      background-color: #f1f3f5;
+    }
+
+    .selectedCell:after {
+      z-index: 2;
+      position: absolute;
+      content: "";
+      left: 0; right: 0; top: 0; bottom: 0;
+      background: rgba(200, 200, 255, 0.4);
+      pointer-events: none;
+    }
+
+    .column-resize-handle {
+      position: absolute;
+      right: -2px;
+      top: 0;
+      bottom: -2px;
+      width: 4px;
+      background-color: #adf;
+      pointer-events: none;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.tableWrapper {
+  padding: 1rem 0;
+  overflow-x: auto;
+}
+
+.resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
 }
 </style>
 
