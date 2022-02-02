@@ -567,6 +567,63 @@
                     </v-card>                       
                 </v-dialog>
             </div>
+
+            <div id="table" class="d-inline">
+                <v-dialog id="table-dialog"
+                    v-model="table.dialog"
+                    width="500"
+                    >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn 
+                        icon
+                        small
+                        elevation="0"
+                        v-bind="attrs"
+                        v-on="on"
+                        >
+                            <v-icon>mdi-table</v-icon>
+                        </v-btn>
+                    </template>
+
+                    <v-card width="500">
+                        <v-card-title>Set row and column</v-card-title>
+                        <v-divider></v-divider>
+                        <v-card-text>
+                            <v-text-field
+                            v-model="table.column"
+                            label="Column"
+                            placeholder="Number of columns"
+                            autofocus
+                            clearable
+                            ></v-text-field>
+
+                            <v-text-field
+                            v-model="table.row"
+                            label="Row"
+                            placeholder="Number of rows"
+                            autofocus
+                            clearable
+                            ></v-text-field>
+                        </v-card-text>
+
+                        <v-card-actions>
+                            <v-btn
+                            class="mt-2"
+                            elevation="0"
+                            @click="table.dialog = false"
+                            >Cancel</v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                            class="mt-2"
+                            @click="setTable(table.column, table.row)"
+                            elevation="0"
+                            dark
+                            color="blue"
+                            >Done</v-btn>
+                        </v-card-actions>
+                    </v-card>                       
+                </v-dialog>
+            </div>
         </v-card>
 
         <bubble-menu
@@ -656,6 +713,12 @@ export default {
                 href: '',
                 color_dialog: null,
                 color: '#C090FC',
+            },
+
+            table: {
+                dialog: null,
+                row: 0,
+                culumn: 0,
             }
         }
     },
